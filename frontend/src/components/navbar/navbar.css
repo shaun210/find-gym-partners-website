@@ -1,0 +1,64 @@
+.navbarParent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    z-index: 5; /* Ensure the navbar appears above other content */
+
+}
+
+/* Navbar container */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Navbar logo styles */
+  .navbarLogo h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .navbarRight {
+    display: flex;
+    align-items: center;
+    margin-right: 3vh;
+  }
+  
+  .loggedIn, .loggedOut{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  
+  /* Individual button styles */
+  .navbarButtons button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  /* Logged-in buttons */
+  .friendListButton button {
+    background-color: #28a745;
+  }
+  
+  .findFriendButton button {
+    background-color: #ffc107;
+  }
+
+  .logOutButton button {
+    background-color: #dc3545;
+  }
+  
+  /* Hover styles for buttons */
+  .navbarButtons button:hover {
+    opacity: 0.8;
+  }
