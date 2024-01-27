@@ -10,7 +10,7 @@ const SignIn = () => {
         firstName: '',
         lastName: '',
         personalDescription: '',
-        gymLevel: '0',
+        gymLevel: "BEGINNER", 
         age: 0,
         yearsOfExperience: 0,
         facebookLink: '',
@@ -78,40 +78,12 @@ const SignIn = () => {
             <textarea name="personalDescription" value={formData.personalDescription} onChange={handleChange} />
             </label>
             <label>
-            What do you think is your current level at the gym?
-            <div>
-            <label>
-                <input
-                type="radio"
-                name="gymLevel"
-                value="0"
-                checked={formData.gymLevel === '0'}
-                onChange={handleChange}
-                />
-                Beginner
-            </label>
-            <label>
-                <input
-                type="radio"
-                name="gymLevel"
-                value="1"
-                checked={formData.gymLevel === '1'}
-                onChange={handleChange}
-                />
-                Intermediate
-            </label>
-            <label>
-                <input
-                type="radio"
-                name="gymLevel"
-                value="2"
-                checked={formData.gymLevel === '2'}
-                onChange={handleChange}
-                />
-                Advanced
-            </label>
-            </div>
-
+            What do you think is your current gym level:
+            <select name="gymLevel" value={formData.gymLevel} onChange={handleChange}>
+                <option value="BEGINNER">Beginner</option>
+                <option value="INTERMEDIATE">Intermediate</option>
+                <option value="ADVANCED">Advanced</option>
+            </select>
             </label>
             <button type="submit">Submit</button>
         </form>

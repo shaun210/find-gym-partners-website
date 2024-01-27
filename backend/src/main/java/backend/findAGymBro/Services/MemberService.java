@@ -3,6 +3,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import backend.findAGymBro.Models.Member;
+import jakarta.persistence.EntityNotFoundException;
 import backend.findAGymBro.DAO.MemberRepository;
 import backend.findAGymBro.Models.GymLevel;
 
@@ -15,7 +16,8 @@ public class MemberService {
 
     @Transactional
     public Member createMember(String username, String password, String email, String firstName, 
-    String lastName, String personalDescription, GymLevel gymLevel, int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink) {
+    String lastName, String personalDescription, GymLevel gymLevel, int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, 
+    String addressTown, String addressCountry) {
 
         // check if username unique
         if (memberRepository.findByUsername(username) != null) {
@@ -26,7 +28,7 @@ public class MemberService {
             throw new IllegalArgumentException("Invalid email");
         }
 
-        Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink);
+        Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry);
         memberRepository.save(member);
         return member;
     }
@@ -39,15 +41,6 @@ public class MemberService {
         }
         if (!member.getPassword().equals(password)) {
             throw new IllegalArgumentException("Incorrect password");
-        }
-        return member;
-    }
-
-    @Transactional
-    public Member getMember(String username) {
-        Member member = memberRepository.findByUsername(username);
-        if (member == null) {
-            throw new IllegalArgumentException("Member does not exist");
         }
         return member;
     }
@@ -81,4 +74,42 @@ public class MemberService {
         memberRepository.save(friend);
         return true;
     }
+
+    @Transactional
+    public Member findPeopleByUsername(String username) {
+        if (username == null) {
+            throw new IllegalArgumentException("Invalid argument: username cannot be null");
+        }
+        Member foundMember = memberRepository.findByUsername(username);
+        if (foundMember == null) {
+            throw new EntityNotFoundException("Member not found with username: " + username);
+        }
+        return foundMember;
+    }
+
+    @Transactional
+    public List<Member> findPeopleByAddress(String addressTown, String addressCountry) {
+        if (addressTown == null || addressCountry == null) {
+            throw new IllegalArgumentException("Invalid arguments: addressTown and addressCountry cannot be null");
+        }
+        List<Member> foundMembers = memberRepository.findByAddressTownAndAddressCountry(addressTown, addressCountry);
+        if (foundMembers.isEmpty()) {
+            throw new EntityNotFoundException("Members not found with address: " + addressTown + ", " + addressCountry);
+        }
+        return foundMembers;
+    }
+
+    @Transactional
+    public List<Member> findPeopleByGymLevelAndAddress(GymLevel gymLevel, String addressTown, String addressCountry) {
+        if (gymLevel == null) {
+            throw new IllegalArgumentException("Invalid argument: gymLevel cannot be null");
+        }
+        List<Member> foundMembers = memberRepository.findByGymLevelAndAddressTownAndAddressCountry(gymLevel, addressTown, addressCountry);
+        if (foundMembers.isEmpty()) {
+            throw new EntityNotFoundException("Members not found with gym level: " + gymLevel +
+                    " and address: " + addressTown + ", " + addressCountry);
+        }
+        return foundMembers;
+    }
+
 }

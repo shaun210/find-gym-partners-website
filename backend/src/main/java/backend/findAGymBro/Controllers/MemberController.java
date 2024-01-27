@@ -22,40 +22,28 @@ public class MemberController {
                                @RequestParam(value = "firstName") String firstName,
                                @RequestParam(value = "lastName") String lastName,
                                @RequestParam(value = "personalDescription") String personalDescription,
-                               @RequestParam(value = "gymLevel") int gymLevelInt,
+                               @RequestParam(value = "gymLevel") String gymLevel,
                                @RequestParam(value = "age") int age,
                                @RequestParam(value = "yearsOfExperience") int yearsOfExperience,
                                 @RequestParam(value = "facebookLink") String facebookLink,
                                 @RequestParam(value = "instagramLink") String instagramLink,
                                 @RequestParam(value = "snapchatLink") String snapchatLink,
-                                @RequestParam(value = "tiktokLink") String tiktokLink
+                                @RequestParam(value = "tiktokLink") String tiktokLink,
+                                @RequestParam(value = "addressTown") String addressTown,
+                                @RequestParam(value = "addressCountry") String addressCountry
                                ) {
-        // gym level
-        GymLevel gymLevel;
-        switch (gymLevelInt) {
-            case 0:
-                gymLevel = GymLevel.BEGINNER;
-                break;
-            case 1:
-                gymLevel = GymLevel.INTERMEDIATE;
-                break;
-            case 2:
-                gymLevel = GymLevel.ADVANCED;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid gym level");
-        }
-        return new MemberDto(memberService.createMember(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink));
+        try {
+            GymLevel enumGymLevel = GymLevel.valueOf(gymLevel.toUpperCase());
+            return new MemberDto(memberService.createMember(username, password, email, firstName, lastName, personalDescription, enumGymLevel, age, 
+                yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("error in creating member");
+        } 
     }
     @PostMapping(value = {"/login", "/login/"})
     public MemberDto login(@RequestParam(value = "username") String username,
                         @RequestParam(value = "password") String password) {
         return new MemberDto(memberService.login(username, password));
-    }
-
-    @RequestMapping(value = "/getMember", method = RequestMethod.GET)
-    public MemberDto getMember(@RequestParam(value = "username") String username) {
-        return new MemberDto(memberService.getMember(username));
     }
 
     @RequestMapping(value = "/friendList", method = RequestMethod.GET)
@@ -69,4 +57,27 @@ public class MemberController {
         return memberService.addFriend(username, friendUsername);
     }
 
+    // look for people controller, all 3
+    @RequestMapping(value = "/findPeopleByUsername", method = RequestMethod.GET)
+    public MemberDto findPeopleByUsername(@RequestParam(value = "username") String username) {
+        return new MemberDto(memberService.findPeopleByUsername(username));
+    }
+    
+    @RequestMapping(value = "/findPeopleByAddress", method = RequestMethod.GET)
+    public List<MemberDto> findPeopleByAddress(@RequestParam(value = "addressTown") String addressTown,
+                                                @RequestParam(value = "addressCountry") String addressCountry) {
+        return memberService.findPeopleByAddress(addressTown, addressCountry).stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/findPeopleByGymLevelAndAddress", method = RequestMethod.GET)
+    public List<MemberDto> findPeopleByGymLevelAndAddress(@RequestParam(value = "gymLevel") String gymLevel,
+                                                            @RequestParam(value = "addressTown") String addressTown,
+                                                            @RequestParam(value = "addressCountry") String addressCountry) {
+        try {
+            GymLevel enumGymLevel = GymLevel.valueOf(gymLevel.toUpperCase());
+            return memberService.findPeopleByGymLevelAndAddress(enumGymLevel, addressTown, addressCountry).stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("error in finding people by gym level and address");
+        } 
+    }
 }

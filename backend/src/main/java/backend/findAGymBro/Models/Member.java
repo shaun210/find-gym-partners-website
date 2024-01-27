@@ -1,5 +1,7 @@
 package backend.findAGymBro.Models;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
@@ -18,6 +20,8 @@ public class Member {
     @ManyToMany
     private List<Member> friends;
     private String personalDescription;
+
+    @Enumerated(EnumType.STRING)
     private GymLevel gymLevel;
     private int age;
     private int yearsOfExperience;
@@ -25,6 +29,8 @@ public class Member {
     private String instagramLink;
     private String snapchatLink;
     private String tiktokLink;
+    private String addressTown;
+    private String addressCountry;
 
 
     public Member() {
@@ -33,7 +39,7 @@ public class Member {
 
     // use all private variables in constructor
     public Member(String username, String password, String email, String firstName, String lastName, String personalDescription, GymLevel gymLevel, 
-    int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink) {
+    int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, String addressTown, String addressCountry) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -48,7 +54,8 @@ public class Member {
         this.instagramLink = instagramLink;
         this.snapchatLink = snapchatLink;
         this.tiktokLink = tiktokLink;
-
+        this.addressTown = addressTown;
+        this.addressCountry = addressCountry;
     }
 
     public String getUsername() {
@@ -107,6 +114,14 @@ public class Member {
         return tiktokLink;
     }
 
+    public String getAddressTown() {
+        return addressTown;
+    }
+
+    public String getAddressCountry() {
+        return addressCountry;
+    }
+
     public void setUsername(String username){
         this.username = username;
     }
@@ -161,6 +176,14 @@ public class Member {
 
     public void setTiktokLink(String tiktokLink) {
         this.tiktokLink = tiktokLink;
+    }
+
+    public void setAddressTown(String addressTown) {
+        this.addressTown = addressTown;
+    }
+
+    public void setAddressCountry(String addressCountry) {
+        this.addressCountry = addressCountry;
     }
     
 }

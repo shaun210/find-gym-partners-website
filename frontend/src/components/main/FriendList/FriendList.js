@@ -20,7 +20,6 @@ const FriendList = () => {
                 console.error('Error fetching friend list:', error);
             }
         };
-
         fetchFriendList();
     }, []);
 

@@ -5,4 +5,5 @@ export const paths = {
     LOGIN: '/login',
     SINGLE_CHAT: '/singleChat/:friendName',
     SIGNIN: '/signin',
+    FIND_PEOPLE: '/findPeople',
 }
