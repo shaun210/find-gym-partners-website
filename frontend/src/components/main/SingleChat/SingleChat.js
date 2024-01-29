@@ -25,17 +25,18 @@ const SingleChat = () => {
         const fetchData = async () => {
             try {         
                 let answer = await getChatId(currentUser, friendName);
-                if (answer === undefined) {
-                    let check = await checkChatExists(currentUser, friendName);
-                    if (check === false) {
-                        let chat = await createChat(currentUser, friendName);
-                        chatID.current = chat.chatId;
-                    }
-                    else return;
-                }
-                else{
-                    chatID.current = answer;
-                }    
+                // if (answer === undefined) {
+                //     let check = await checkChatExists(currentUser, friendName);
+                //     if (check === false) {
+                //         let chat = await createChat(currentUser, friendName);
+                //         chatID.current = chat.chatId;
+                //     }
+                //     else return;
+                // }
+                // else{
+                //     chatID.current = answer;
+                // }
+                chatID.current = answer; 
                 let messages = await getAllMessages(answer);
                 setChatMessages(messages);
 
@@ -127,6 +128,7 @@ const SingleChat = () => {
                 <h1>{friendName}</h1>
             </div>       
             <div className='scrollableChat'>
+                {/* do I need to check if empty? */}
                 {chatMessages.map((messageObject, index) => (
                     <div key={index}>
                         <SingleMessage message={messageObject.message} sender={messageObject.sender} time ={messageObject.date}/>

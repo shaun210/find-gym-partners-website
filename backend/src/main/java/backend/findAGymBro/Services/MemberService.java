@@ -14,6 +14,9 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private ChatService chatService;
+
     @Transactional
     public Member createMember(String username, String password, String email, String firstName, 
     String lastName, String personalDescription, GymLevel gymLevel, int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, 
@@ -72,6 +75,10 @@ public class MemberService {
         friend.getFriends().add(member);
         memberRepository.save(member);
         memberRepository.save(friend);
+
+        // there is a dependency on chat service
+        // workaround: make two calls from frontend, one to create chat and one to add friend?
+        chatService.createChat(username, friendUsername);
         return true;
     }
 
@@ -87,27 +94,27 @@ public class MemberService {
         return foundMember;
     }
 
-    @Transactional
-    public List<Member> findPeopleByAddress(String addressTown, String addressCountry) {
-        if (addressTown == null || addressCountry == null) {
-            throw new IllegalArgumentException("Invalid arguments: addressTown and addressCountry cannot be null");
-        }
-        List<Member> foundMembers = memberRepository.findByAddressTownAndAddressCountry(addressTown, addressCountry);
-        if (foundMembers.isEmpty()) {
-            throw new EntityNotFoundException("Members not found with address: " + addressTown + ", " + addressCountry);
-        }
-        return foundMembers;
-    }
+    // @Transactional
+    // public List<Member> findPeopleByAddress(String addressTown, String addressCountry) {
+    //     if (addressTown == null || addressCountry == null) {
+    //         throw new IllegalArgumentException("Invalid arguments: addressTown and addressCountry cannot be null");
+    //     }
+    //     List<Member> foundMembers = memberRepository.findByAddressTownAndAddressCountry(addressTown, addressCountry);
+    //     if (foundMembers.isEmpty()) {
+    //         throw new EntityNotFoundException("Members not found with address: " + addressTown + ", " + addressCountry);
+    //     }
+    //     return foundMembers;
+    // }
 
     @Transactional
-    public List<Member> findPeopleByGymLevelAndAddress(GymLevel gymLevel, String addressTown, String addressCountry) {
+    public List<Member> findPeopleByGymLevelAndAddress(GymLevel gymLevel, String addressTown) {
         if (gymLevel == null) {
             throw new IllegalArgumentException("Invalid argument: gymLevel cannot be null");
         }
-        List<Member> foundMembers = memberRepository.findByGymLevelAndAddressTownAndAddressCountry(gymLevel, addressTown, addressCountry);
+        List<Member> foundMembers = memberRepository.findByGymLevelAndAddressTown(gymLevel, addressTown);
         if (foundMembers.isEmpty()) {
             throw new EntityNotFoundException("Members not found with gym level: " + gymLevel +
-                    " and address: " + addressTown + ", " + addressCountry);
+                    " and address: ");
         }
         return foundMembers;
     }

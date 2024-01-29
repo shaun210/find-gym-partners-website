@@ -62,20 +62,13 @@ public class MemberController {
     public MemberDto findPeopleByUsername(@RequestParam(value = "username") String username) {
         return new MemberDto(memberService.findPeopleByUsername(username));
     }
-    
-    @RequestMapping(value = "/findPeopleByAddress", method = RequestMethod.GET)
-    public List<MemberDto> findPeopleByAddress(@RequestParam(value = "addressTown") String addressTown,
-                                                @RequestParam(value = "addressCountry") String addressCountry) {
-        return memberService.findPeopleByAddress(addressTown, addressCountry).stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
-    }
 
     @RequestMapping(value = "/findPeopleByGymLevelAndAddress", method = RequestMethod.GET)
     public List<MemberDto> findPeopleByGymLevelAndAddress(@RequestParam(value = "gymLevel") String gymLevel,
-                                                            @RequestParam(value = "addressTown") String addressTown,
-                                                            @RequestParam(value = "addressCountry") String addressCountry) {
+                                                            @RequestParam(value = "addressTown") String addressTown) {
         try {
             GymLevel enumGymLevel = GymLevel.valueOf(gymLevel.toUpperCase());
-            return memberService.findPeopleByGymLevelAndAddress(enumGymLevel, addressTown, addressCountry).stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
+            return memberService.findPeopleByGymLevelAndAddress(enumGymLevel, addressTown).stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
         } catch (Exception e) {
             throw new IllegalArgumentException("error in finding people by gym level and address");
         } 

@@ -11,6 +11,5 @@ public interface MemberRepository extends CrudRepository<Member, String> {
     List<Member> findByLastName(String lastName);
     Member findByEmail(String email);
     List<Member> findByFirstNameAndLastName(String firstName, String lastName);
-    List<Member> findByAddressTownAndAddressCountry(String addressTown, String addressCountry);
-    List<Member> findByGymLevelAndAddressTownAndAddressCountry(GymLevel gymLevel, String addressTown, String addressCountry);
+    List<Member> findByGymLevelAndAddressTown(GymLevel gymLevel, String addressTown);
 }
