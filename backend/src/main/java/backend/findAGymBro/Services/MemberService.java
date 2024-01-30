@@ -2,11 +2,14 @@ package backend.findAGymBro.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import backend.findAGymBro.Models.Member;
 import jakarta.persistence.EntityNotFoundException;
 import backend.findAGymBro.DAO.MemberRepository;
 import backend.findAGymBro.Models.GymLevel;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -20,7 +23,7 @@ public class MemberService {
     @Transactional
     public Member createMember(String username, String password, String email, String firstName, 
     String lastName, String personalDescription, GymLevel gymLevel, int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, 
-    String addressTown, String addressCountry) {
+    String addressTown, String addressCountry, MultipartFile profilePicFile) {
 
         // check if username unique
         if (memberRepository.findByUsername(username) != null) {
@@ -30,8 +33,18 @@ public class MemberService {
         if (!email.contains("@")) {
             throw new IllegalArgumentException("Invalid email");
         }
+        if (profilePicFile != null && !profilePicFile.getContentType().equals("image/jpeg")) {
+            throw new IllegalArgumentException("Invalid file type");
+        }
+        byte[] pictureBytes = null;
+        try {
+            // Handle the IOException here
+            pictureBytes = profilePicFile.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException("Error processing profile picture file", e);
+        }
 
-        Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry);
+        Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry, pictureBytes);
         memberRepository.save(member);
         return member;
     }

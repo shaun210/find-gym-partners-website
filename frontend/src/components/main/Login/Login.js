@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { login } from '../../../api/MemberApi';
 import './Login.css'; // Your CSS file
+import { paths } from '../../../constants';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -15,7 +17,7 @@ const Login = () => {
     console.log("member: ");
     console.log(data);
     localStorage.setItem('member', JSON.stringify(data));
-    window.location.href = '/friendList';
+    window.location.href = paths.FRIEND_LIST;
   };
 
   const failLoginCallback = (data) => {
@@ -40,10 +42,16 @@ const Login = () => {
           <label>
             Password:
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <input
+              type="checkbox"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+            />
+            Show Password
           </label>
         </div>
         <button type="submit">Login</button>

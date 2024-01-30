@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import "./SignIn.css";
+import { paths } from "../../../constants";
+import { signin } from "../../../api/MemberApi";
 const SignIn = () => {
 
     const [formData, setFormData] = useState({
@@ -17,17 +19,36 @@ const SignIn = () => {
         instagramLink: '',
         snapchatLink: '',
         tiktokLink: '',
+        addressTown: '',
+        addressCountry: '',
+        profilePicture: null,
     });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        const { name, value, type } = e.target;
+        if (type === 'file') {
+            setFormData({ ...formData, [name]: e.target.files[0] });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(formData);
+        signin(formData, successSignInCallback, failSignInCallback);
     }
+
+    const successSignInCallback = (data) => {
+        console.log("member: ");
+        console.log(data);
+        localStorage.setItem('member', JSON.stringify(data));
+        window.location.href = paths.FRIEND_LIST;
+    };
+
+    const failSignInCallback = (data) => {
+        console.log(data);
+    };
 
     return (
         <div className="parentBlockSignIn">
@@ -54,8 +75,12 @@ const SignIn = () => {
             <input type="password" name="password" value={formData.password} onChange={handleChange} />
             </label>
             <label>
-            Gym Level:
-            <input type="number" name="gymLevel" value={formData.gymLevel} onChange={handleChange} />
+            Town:
+            <input type="text" name="addressTown" value={formData.addressTown} onChange={handleChange} />
+            </label>
+            <label>
+            Country:
+            <input type="text" name="addressCountry" value={formData.addressCountry} onChange={handleChange} />
             </label>
             <label>
             Facebook Link:
@@ -85,6 +110,11 @@ const SignIn = () => {
                 <option value="ADVANCED">Advanced</option>
             </select>
             </label>
+            <label>
+                Profile Picture:
+                <input type="file" name="profilePicture" onChange={handleChange} />
+            </label>
+                            
             <button type="submit">Submit</button>
         </form>
         </div>

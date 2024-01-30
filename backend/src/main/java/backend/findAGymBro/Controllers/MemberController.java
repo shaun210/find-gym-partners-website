@@ -5,17 +5,19 @@ import backend.findAGymBro.Models.Member;
 import backend.findAGymBro.Services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
 @RestController
+@RequestMapping("/member")
 public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    @PostMapping(value = {"/createMember", "/createMember/"})
+    @PostMapping(value = {"/", ""})
     public MemberDto createMember(@RequestParam(value = "username") String username,
                                @RequestParam(value = "password") String password,
                                @RequestParam(value = "email") String email,
@@ -30,14 +32,17 @@ public class MemberController {
                                 @RequestParam(value = "snapchatLink") String snapchatLink,
                                 @RequestParam(value = "tiktokLink") String tiktokLink,
                                 @RequestParam(value = "addressTown") String addressTown,
-                                @RequestParam(value = "addressCountry") String addressCountry
+                                @RequestParam(value = "addressCountry") String addressCountry,
+                                @RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture
                                ) {
         try {
+            System.out.println("Received file: " + profilePicture.getOriginalFilename());
+
             GymLevel enumGymLevel = GymLevel.valueOf(gymLevel.toUpperCase());
             return new MemberDto(memberService.createMember(username, password, email, firstName, lastName, personalDescription, enumGymLevel, age, 
-                yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry));
+                yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry, profilePicture));
         } catch (Exception e) {
-            throw new IllegalArgumentException("error in creating member");
+            throw new IllegalArgumentException("error in creating member: " +e.getMessage());
         } 
     }
     @PostMapping(value = {"/login", "/login/"})

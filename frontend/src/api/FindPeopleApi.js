@@ -1,3 +1,4 @@
+import { onlineAPI } from "../constants"
 export async function findPeople(query, gymLevel, searchType) {
     try {
         const params = new URLSearchParams();
@@ -10,8 +11,8 @@ export async function findPeople(query, gymLevel, searchType) {
             });
         }
         else if (searchType === 'address') {
-            params.append('gymLevel', query);
-            params.append('addressTown', addressTown);
+            params.append('gymLevel', gymLevel);
+            params.append('addressTown', query);
             response = await fetch(onlineAPI + 'findPeopleByGymLevelAndAddress?' + params, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },

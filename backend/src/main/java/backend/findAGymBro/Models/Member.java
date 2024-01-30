@@ -4,7 +4,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +33,14 @@ public class Member {
     private String tiktokLink;
     private String addressTown;
     private String addressCountry;
+    @OneToMany(mappedBy = "sender")
+    private List<FriendRequest> sentFriendRequests;
 
+    @OneToMany(mappedBy = "receiver")
+    private List<FriendRequest> receivedFriendRequests;
+
+    @Lob
+    private byte[] profilePicture;
 
     public Member() {
         this.friends = new LinkedList<>();
@@ -39,7 +48,7 @@ public class Member {
 
     // use all private variables in constructor
     public Member(String username, String password, String email, String firstName, String lastName, String personalDescription, GymLevel gymLevel, 
-    int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, String addressTown, String addressCountry) {
+    int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, String addressTown, String addressCountry, byte[] profilePicture) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -56,6 +65,9 @@ public class Member {
         this.tiktokLink = tiktokLink;
         this.addressTown = addressTown;
         this.addressCountry = addressCountry;
+        this.sentFriendRequests = new LinkedList<>();
+        this.receivedFriendRequests = new LinkedList<>();
+        this.profilePicture = profilePicture;
     }
 
     public String getUsername() {
@@ -122,6 +134,18 @@ public class Member {
         return addressCountry;
     }
 
+    public List<FriendRequest> getSentFriendRequests() {
+        return sentFriendRequests;
+    }
+
+    public List<FriendRequest> getReceivedFriendRequests() {
+        return receivedFriendRequests;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
     public void setUsername(String username){
         this.username = username;
     }
@@ -185,6 +209,11 @@ public class Member {
     public void setAddressCountry(String addressCountry) {
         this.addressCountry = addressCountry;
     }
+
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+    
     
 }
 
