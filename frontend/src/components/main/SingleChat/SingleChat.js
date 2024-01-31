@@ -25,17 +25,6 @@ const SingleChat = () => {
         const fetchData = async () => {
             try {         
                 let answer = await getChatId(currentUser, friendName);
-                // if (answer === undefined) {
-                //     let check = await checkChatExists(currentUser, friendName);
-                //     if (check === false) {
-                //         let chat = await createChat(currentUser, friendName);
-                //         chatID.current = chat.chatId;
-                //     }
-                //     else return;
-                // }
-                // else{
-                //     chatID.current = answer;
-                // }
                 chatID.current = answer; 
                 let messages = await getAllMessages(answer);
                 setChatMessages(messages);
@@ -52,7 +41,7 @@ const SingleChat = () => {
                 socketClient.current.activate();
                 
                 return () => {
-                    // Clean up the WebSocket connection when the component unmountsd
+                    // Clean up the WebSocket connection when the component unmounts
                     socketClient.current && socketClient.current.deactivate();
                 };            
             } catch (error) {

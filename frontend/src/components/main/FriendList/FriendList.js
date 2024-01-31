@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getFriendList, getFriendRequests } from '../../../api/FriendListApi';
+import { getFriendList, getFriendRequests, changeAcceptedStatus } from '../../../api/FriendListApi';
 import { Link } from 'react-router-dom';
 import './FriendList.css';
 
@@ -8,43 +8,55 @@ const FriendList = () => {
     const currentUser = storedMember ? storedMember.username : '';
     const [friendList, setFriendList] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
-    useEffect(() => {
-        const fetchFriendList = async () => {
-            try {
-                const data = await getFriendList(currentUser);
-                if (Array.isArray(data)) {
-                    setFriendList(data);
-                } else {
-                    console.error('Friend list data is not an array.');
-                }
-            } catch (error) {
-                console.error('Error fetching friend list:', error);
-            }
-        };
-        const fetchFriendRequests = async () => {
-            try {
-                const data = await getFriendRequests(currentUser);
-                if (Array.isArray(data)) {
-                    setFriendRequests(data);
-                } else {
-                    console.error('Friend list data is not an array.');
-                }
-            } catch (error) {
-                console.error('Error fetching friend list:', error);
-            }
-        };
+    useEffect(() => {        
         fetchFriendList();
         fetchFriendRequests();
     }, []);
+    const fetchFriendList = async () => {
+        try {
+            const data = await getFriendList(currentUser);
+            if (Array.isArray(data)) {
+                setFriendList(data);
+            } else {
+                console.error('Friend list data is not an array.');
+            }
+        } catch (error) {
+            console.error('Error fetching friend list:', error);
+        }
+    };
+    const fetchFriendRequests = async () => {
+        try {
+            const data = await getFriendRequests(currentUser);
+            if (Array.isArray(data)) {
+                setFriendRequests(data);
+            } else {
+                console.error('Friend list data is not an array.');
+            }
+        } catch (error) {
+            console.error('Error fetching friend list:', error);
+        }
+    };
+    const handleAccept = async (sender, receiver, accepted) => {
+        try {
+            const data = await changeAcceptedStatus(sender, receiver, accepted);
+            if (data) {
+                fetchFriendRequests();
+                fetchFriendList();
+            } else {
+                console.log('Not accepted');
+            }
+        } catch (error) {
+            console.error('Error fetching friend list:', error);
+        }
+    }
 
     return (
         <div className='friendListParent'>
             <h2>Friend Request</h2>
             <div className='listOfFriends'>
-                {friendRequests.map((Request, index) => (
+                {friendRequests.map((request, index) => (
                     <div key={index}>
-                        <p> sender: {Request.sender} </p>
-                        <p> receiver: {Request.receiver} </p>
+                        <FriendRequestsNotification request={request} handleAccept={handleAccept} />
                     </div>
                 ))}
             </div>
@@ -74,5 +86,27 @@ const FriendBox = ({friend}) => {
         </div>
     );
 }
+
+const FriendRequestsNotification = ({ request, handleAccept }) => {
+    const { sender, receiver } = request;
+
+    const handleAcceptClick = async () => {
+        await handleAccept(sender, receiver, true);
+    }
+
+    const handleDeclineClick = async () => {
+        await handleAccept(sender, receiver, false);
+    }
+
+    return (
+        <div className='friendRequestsNotificationParent'>
+            <p>{sender}</p>
+            <button onClick={handleAcceptClick}>Accept</button>
+            <button onClick={handleDeclineClick}>Decline</button>
+        </div>
+    );
+}
+
+
 
 export default FriendList;

@@ -3,6 +3,7 @@ package backend.findAGymBro.Controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.findAGymBro.Services.FriendRequestService;
+import backend.findAGymBro.Services.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,17 +25,15 @@ public class FriendRequestController {
     @Autowired
     private FriendRequestService friendRequestService;
 
+    @Autowired
+    private MemberService memberService;
+
     @PostMapping(value = {"/", ""})
     public String createFriendRequest(@RequestParam(value = "sender") String sender,
                                 @RequestParam(value = "receiver") String receiver
                                 ) {
         LocalDateTime localDateTime = LocalDateTime.now();
-        try {
-            friendRequestService.createFriendRequest(sender, receiver, false, localDateTime);
-            return "Friend request successfully created at " + localDateTime; 
-        } catch (Exception e) {
-            throw new IllegalArgumentException("error in creating friend request" + e.getMessage());
-        } 
+        return friendRequestService.createFriendRequest(sender, receiver, false, localDateTime);
     }
     @PutMapping(value = {"/changeAcceptedStatus", "/changeAcceptedStatus/"})
     public String changeAcceptedStatus(@RequestParam(value = "sender") String sender,
@@ -43,7 +42,7 @@ public class FriendRequestController {
         try { 
             return "Friend request successfully updated to: " + friendRequestService.setAcceptedStatus(sender, receiver, accepted); 
         } catch (Exception e) {
-            throw new IllegalArgumentException("error in accepting friend request" + e.getMessage());
+            throw new IllegalArgumentException("error in accepting friend request:" + e.getMessage());
         } 
     }
     // working
@@ -52,7 +51,18 @@ public class FriendRequestController {
         try {
             return friendRequestService.getAllFriendRequests(username).stream().map(friendRequest -> friendRequestService.convertFriendRequestDto(friendRequest)).collect(Collectors.toList());
         } catch (Exception e) {
-            throw new IllegalArgumentException("error in getting all friend requests" + e.getMessage());
+            throw new IllegalArgumentException("error in getting all friend requests:" + e.getMessage());
+        } 
+    }
+
+    @PutMapping(value = {"/deleteFriendRequest", "/deleteFriendRequest/"})
+    public String deleteFriendRequest(@RequestParam(value = "sender") String sender,
+                                        @RequestParam(value = "receiver") String receiver) {
+        try {
+            memberService.removeFriend(sender, receiver);
+            return "Friend request successfully deleted";
+        } catch (Exception e) {
+            throw new IllegalArgumentException("error in deleting friend request:" + e.getMessage());
         } 
     }
     

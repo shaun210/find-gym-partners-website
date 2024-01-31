@@ -6,4 +6,5 @@ export const paths = {
     SINGLE_CHAT: '/singleChat/:friendName',
     SIGNIN: '/signin',
     FIND_PEOPLE: '/findPeople',
+    EDIT_PROFILE: '/editProfile',
 }

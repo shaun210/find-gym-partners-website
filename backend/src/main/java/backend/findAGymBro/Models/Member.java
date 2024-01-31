@@ -39,8 +39,7 @@ public class Member {
     @OneToMany(mappedBy = "receiver")
     private List<FriendRequest> receivedFriendRequests;
 
-    @Lob
-    private byte[] profilePicture;
+
 
     public Member() {
         this.friends = new LinkedList<>();
@@ -48,7 +47,7 @@ public class Member {
 
     // use all private variables in constructor
     public Member(String username, String password, String email, String firstName, String lastName, String personalDescription, GymLevel gymLevel, 
-    int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, String addressTown, String addressCountry, byte[] profilePicture) {
+    int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, String addressTown, String addressCountry) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -67,7 +66,7 @@ public class Member {
         this.addressCountry = addressCountry;
         this.sentFriendRequests = new LinkedList<>();
         this.receivedFriendRequests = new LinkedList<>();
-        this.profilePicture = profilePicture;
+
     }
 
     public String getUsername() {
@@ -142,10 +141,6 @@ public class Member {
         return receivedFriendRequests;
     }
 
-    public byte[] getProfilePicture() {
-        return profilePicture;
-    }
-
     public void setUsername(String username){
         this.username = username;
     }
@@ -210,10 +205,6 @@ public class Member {
         this.addressCountry = addressCountry;
     }
 
-    public void setProfilePicture(byte[] profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-    
     
 }
 

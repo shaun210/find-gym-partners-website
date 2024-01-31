@@ -23,21 +23,20 @@ public class GreetingController {
 
   @MessageMapping("/hello/")
   public void handleMessage(HelloMessage message) throws Exception {
-    // Thread.sleep(1000); 
+    // Thread.sleep(1000);
 
     MessageDto messageDto = new MessageDto(messageService.createMessage(message.getMessage(), Integer.parseInt(message.getChatID()), message.getSender(), message.getReceiver()));
-    System.out.println("youpi + " + message.getChatID());
     String destination = "/topic/chat/" + message.getChatID();
     messagingTemplate.convertAndSend(destination, messageDto);
   }
 
-  @MessageMapping("/hello")
-  // @SendTo("/topic/greetings")
-  public void greeting(DummyMessage message) throws Exception {
-    Thread.sleep(1000); // simulated delay
-    String destination = "/topic/chat/6";
-    messagingTemplate.convertAndSend(destination, new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!"));
-  }
+  // @MessageMapping("/hello")
+  // // @SendTo("/topic/greetings")
+  // public void greeting(DummyMessage message) throws Exception {
+  //   Thread.sleep(1000); // simulated delay
+  //   String destination = "/topic/chat/6";
+  //   messagingTemplate.convertAndSend(destination, new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!"));
+  // }
 
 
 }

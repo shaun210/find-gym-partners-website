@@ -6,9 +6,11 @@ import jakarta.transaction.Transactional;
 
 import backend.findAGymBro.Models.FriendRequest;
 import backend.findAGymBro.Models.Member;
+import backend.findAGymBro.Controllers.CustomException;
 import backend.findAGymBro.DAO.FriendRequestRepository;
 import backend.findAGymBro.DAO.MemberRepository;
 import backend.findAGymBro.DTO.FriendRequestDto;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,7 +26,7 @@ public class FriendRequestService {
     private MemberRepository memberRepository;
 
     @Transactional
-    public FriendRequest createFriendRequest(String sender, String receiver, boolean accepted, LocalDateTime sentDateTime) {
+    public String createFriendRequest(String sender, String receiver, boolean accepted, LocalDateTime sentDateTime) {
 
         // check if sender and receiver are different
         if (sender.equals(receiver)) {
@@ -39,10 +41,18 @@ public class FriendRequestService {
         if (receiverMember == null) {
             throw new IllegalArgumentException("Receiver does not exist");
         }
+        // check if friend request already exists
+        if (friendRequestRepository.findBySenderAndReceiver(senderMember, receiverMember) != null) {
+            throw new CustomException("Friend Request already exists", HttpStatus.BAD_REQUEST);
+        }
 
+        // check if friends
+        if (memberRepository.areFriends(sender, receiver)) {
+            throw new CustomException("Member already is a friend", HttpStatus.BAD_REQUEST);
+        }
         FriendRequest friendRequest = new FriendRequest(senderMember, receiverMember, accepted, sentDateTime);
         friendRequestRepository.save(friendRequest);
-        return friendRequest;
+        return "Friend request successfully created";
     }
 
     @Transactional

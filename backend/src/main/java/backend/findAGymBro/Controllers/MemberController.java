@@ -3,12 +3,16 @@ import backend.findAGymBro.DTO.MemberDto;
 import backend.findAGymBro.Models.GymLevel;
 import backend.findAGymBro.Models.Member;
 import backend.findAGymBro.Services.MemberService;
+
+import org.hibernate.engine.internal.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.LinkedList;
 import java.util.stream.Collectors;
+import java.io.IOException;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -70,12 +74,30 @@ public class MemberController {
 
     @RequestMapping(value = "/findPeopleByGymLevelAndAddress", method = RequestMethod.GET)
     public List<MemberDto> findPeopleByGymLevelAndAddress(@RequestParam(value = "gymLevel") String gymLevel,
-                                                            @RequestParam(value = "addressTown") String addressTown) {
+                                                        @RequestParam(value = "addressTown") String addressTown) {
         try {
             GymLevel enumGymLevel = GymLevel.valueOf(gymLevel.toUpperCase());
-            return memberService.findPeopleByGymLevelAndAddress(enumGymLevel, addressTown).stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
+            List<Member> foundMembers = memberService.findPeopleByGymLevelAndAddress(enumGymLevel, addressTown);
+            return foundMembers.stream().map(m -> {
+                try {
+                    MemberDto mm =  memberService.convMemberDtoWithPicture(m);
+                    return mm;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }).collect(Collectors.toList());
         } catch (Exception e) {
-            throw new IllegalArgumentException("error in finding people by gym level and address");
+            throw new IllegalArgumentException("Error in finding people by gym level and address:" + e.getMessage());
+        }
+    }
+
+    @GetMapping(value = {"/profilePicture", "/profilePicture/"})
+    public byte[] getProfilePic(@RequestParam(value = "username") String username) {
+        try {
+            return memberService.getProfilePicture(username);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("error in getting profile picture" + e.getMessage());
         } 
     }
 }

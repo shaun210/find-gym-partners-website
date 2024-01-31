@@ -36,3 +36,25 @@ export async function getFriendRequests(username) {
         console.log(error);
     }
 }
+
+export async function changeAcceptedStatus(sender, receiver, accepted) {
+    try {
+        console.log(sender); console.log(receiver); console.log(accepted);
+        const params = new URLSearchParams();
+        params.append('sender', sender);
+        params.append('receiver', receiver);
+        params.append('accepted', accepted);
+        const response = await fetch(onlineAPI + 'friendRequest/changeAcceptedStatus?' + params, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+        });
+        const data = await response.text();
+        if (response.ok) {
+            return data;
+        } else {
+            console.log(data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}

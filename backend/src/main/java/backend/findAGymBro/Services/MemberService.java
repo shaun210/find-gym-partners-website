@@ -6,12 +6,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import backend.findAGymBro.Models.Member;
 import jakarta.persistence.EntityNotFoundException;
+import java.nio.file.Files;
 import backend.findAGymBro.DAO.MemberRepository;
+import backend.findAGymBro.DTO.MemberDto;
 import backend.findAGymBro.Models.GymLevel;
 
 import java.io.IOException;
 import java.util.List;
-
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.File;
+import java.nio.file.NoSuchFileException;
 @Service
 public class MemberService {
     @Autowired
@@ -36,16 +41,11 @@ public class MemberService {
         if (profilePicFile != null && !profilePicFile.getContentType().equals("image/jpeg")) {
             throw new IllegalArgumentException("Invalid file type");
         }
-        byte[] pictureBytes = null;
-        try {
-            // Handle the IOException here
-            pictureBytes = profilePicFile.getBytes();
-        } catch (IOException e) {
-            throw new RuntimeException("Error processing profile picture file", e);
-        }
+        
 
-        Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry, pictureBytes);
+        Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry);
         memberRepository.save(member);
+        saveProfilePicture(username, profilePicFile);
         return member;
     }
 
@@ -107,6 +107,27 @@ public class MemberService {
         return foundMember;
     }
 
+    @Transactional
+    public boolean removeFriend(String username, String friendUsername) {
+        Member member = memberRepository.findByUsername(username);
+        Member friend = memberRepository.findByUsername(friendUsername);
+        if (member == null || friend == null) {
+            throw new IllegalArgumentException("Member does not exist");
+        }
+        if (!member.getFriends().contains(friend) || !friend.getFriends().contains(member)) {
+            throw new IllegalArgumentException("Friend does not exist");
+        }
+        if (member.equals(friend)) {
+            throw new IllegalArgumentException("Cannot remove self as friend");
+        }
+
+        member.getFriends().remove(friend);
+        friend.getFriends().remove(member);
+        memberRepository.save(member);
+        memberRepository.save(friend);
+        return true;
+    }
+
     // @Transactional
     // public List<Member> findPeopleByAddress(String addressTown, String addressCountry) {
     //     if (addressTown == null || addressCountry == null) {
@@ -125,11 +146,68 @@ public class MemberService {
             throw new IllegalArgumentException("Invalid argument: gymLevel cannot be null");
         }
         List<Member> foundMembers = memberRepository.findByGymLevelAndAddressTown(gymLevel, addressTown);
-        if (foundMembers.isEmpty()) {
-            throw new EntityNotFoundException("Members not found with gym level: " + gymLevel +
-                    " and address: ");
-        }
         return foundMembers;
     }
+
+    private void saveProfilePicture(String username, MultipartFile profilePicFile) {
+        try {
+            // Generate a unique filename for the profile picture
+            String filename = username + getFileExtension(profilePicFile.getOriginalFilename());
+
+            String currentDirectory = System.getProperty("user.dir");
+
+        // Print the current working directory
+            System.out.println("Current Directory: " + currentDirectory);
+            File file = new File(currentDirectory + "/src/main/java/backend/findAGymBro/ProfilePictures/" + filename);
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            profilePicFile.transferTo(file);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save profile picture", e.getCause());
+        }
+    }
+
+    private String getFileExtension(String filename) {
+        int dotIndex = filename.lastIndexOf(".");
+        return (dotIndex == -1) ? "" : filename.substring(dotIndex);
+    }
+
+    public byte[] getProfilePicture(String username) throws IOException{
+        String currentDirectory = System.getProperty("user.dir");
+        String filePath = currentDirectory + "/src/main/java/backend/findAGymBro/ProfilePictures/" + username + ".jpg";
+    
+        try {
+            Path path = Paths.get(filePath);
+            byte[] fileContent = Files.readAllBytes(path);
+            return fileContent;
+        } catch (NoSuchFileException e) {
+            System.err.println("Profile picture not found for user: " + username);
+            return getDefaultProfilePicture();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return getDefaultProfilePicture();
+        }
+    }
+
+    private byte[] getDefaultProfilePicture() throws IOException{
+        try {
+            String currentDirectory = System.getProperty("user.dir");
+            String filePath = currentDirectory + "/src/main/java/backend/findAGymBro/ProfilePictures/dummypic.png";
+            Path path = Paths.get(filePath);
+            byte[] fileContent = Files.readAllBytes(path);
+            return fileContent;
+        } catch (IOException e) {
+            System.err.println("Default profile picture not found");
+            return new byte[0];
+        }
+    }
+
+    public MemberDto convMemberDtoWithPicture(Member member) throws IOException{
+        String username = member.getUsername();
+        return new MemberDto(member, getProfilePicture(username));
+    }
+
 
 }

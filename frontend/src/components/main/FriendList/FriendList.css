@@ -19,6 +19,10 @@
     flex-direction: column;
     gap: 15px;
   }
+
+  .friendRequestsNotificationParent button {
+    background-color: #c53439;
+  }
   
   .friendBox {
     background-color: #fff;

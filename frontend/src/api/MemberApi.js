@@ -45,6 +45,25 @@ export async function signin(form, successCallback, failCallback) {
 
 }
 
+export async function getProfilePicture(username) {
+    try {
+        const params = new URLSearchParams();
+        params.append('username', username);
+        
+        const response = await fetch(onlineAPI + 'member/profilePicture?' + params, {
+            method: 'GET',
+        });
+        const data = await response.blob();
+        if (response.ok) {
+            return data;
+        } else {
+            console.log(data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // to get friend list
 // export async function getFriendList(username, successCallback, failCallback) {
 //     try {

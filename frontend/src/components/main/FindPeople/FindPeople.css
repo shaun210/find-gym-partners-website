@@ -30,3 +30,61 @@
     border-radius: 5px;
     font-size: 16px;
 }
+
+/* Style for the container of peopleList */
+.peopleList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  /* Style for each individual person box */
+  .peopleBox {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  
+    /* Hover effect */
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  
+  /* Style for profile picture */
+  .peopleProfilePicture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  
+  /* Style for name, address, and gymLevel */
+  .peopleName,
+  .peopleAddress,
+  .peopleGymLevel {
+    margin-bottom: 8px;
+  }
+  
+  /* Style for the 'Add Friend' button */
+  .peopleButton {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  
+    /* Hover effect */
+    &:hover {
+      background-color: #45a049;
+    }
+  }
+  
