@@ -1,5 +1,5 @@
 import { onlineAPI } from "../constants"
-export async function getChatId(username, friendname) {
+export async function getChatId(username, friendname, successCallback) {
     try {
         const params = new URLSearchParams();
         params.append('member1Username', username);
@@ -9,10 +9,9 @@ export async function getChatId(username, friendname) {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         });
-        const data = await response.json();
+        const data = await response.text();
         if (response.ok) {
-
-            return data;
+            successCallback(data);
         } else {
             console.log(data);
         }

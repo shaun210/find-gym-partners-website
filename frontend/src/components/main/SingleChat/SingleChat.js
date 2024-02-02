@@ -24,11 +24,7 @@ const SingleChat = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {         
-                let answer = await getChatId(currentUser, friendName);
-                chatID.current = answer; 
-                let messages = await getAllMessages(answer);
-                setChatMessages(messages);
-
+                let answer = await getChatId(currentUser, friendName, onSuccessCallbackChatId);
                 socketClient.current = new Client({
                     brokerURL: 'ws://localhost:8080/gs-guide-websocket',
                     reconnectDelay: 5000,
@@ -52,12 +48,16 @@ const SingleChat = () => {
         
     }, []);
 
+    async function onSuccessCallbackChatId(response) {
+        chatID.current = response; 
+        let messages = await getAllMessages(response);
+        setChatMessages(messages);
+    }
+
     function onConnected() {
         if (socketClient.current.connected) {
             console.log('Connected!!');
-            console.log(chatID);
             socketClient.current.subscribe('/topic/chat/' + chatID.current, (message) => {
-                console.log('Received message:', message.body);
                 showChatMessage(JSON.parse(message.body));
             });
             
@@ -73,7 +73,6 @@ const SingleChat = () => {
 
     // not efficient unless you apply pagninationoo
     function showChatMessage(message) {
-        console.log(message);
         if (message.messageId === latestMessageId.current) {
             return;
         }
@@ -87,9 +86,7 @@ const SingleChat = () => {
     }
     
     function sendMessage() {
-        console.log(socketClient.connected);
         if (socketClient && socketClient.current.connected) {
-            console.log('connected');
             let message = {
                 sender: currentUser,
                 receiver: friendName,
@@ -130,6 +127,7 @@ const SingleChat = () => {
                 placeholder="Type a message"
                 value={inputMessage}
                 onChange={handleMessageChange}
+                onKeyUpCapture={(e) => e.key === 'Enter' ? sendMessage() : null}
                 rows={1}
             />
             <button onClick={sendMessage} style={{ width: '10%', padding: '0' }}>

@@ -40,7 +40,6 @@ public class MemberController {
                                 @RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture
                                ) {
         try {
-            System.out.println("Received file: " + profilePicture.getOriginalFilename());
 
             GymLevel enumGymLevel = GymLevel.valueOf(gymLevel.toUpperCase());
             return new MemberDto(memberService.createMember(username, password, email, firstName, lastName, personalDescription, enumGymLevel, age, 

@@ -58,3 +58,23 @@ export async function changeAcceptedStatus(sender, receiver, accepted) {
         console.log(error);
     }
 }
+
+export async function removeFriend(sender, receiver) {
+    try {
+        const params = new URLSearchParams();
+        params.append('sender', sender);
+        params.append('receiver', receiver);
+        const response = await fetch(onlineAPI + 'friendRequest/deleteFriendRequest?' + params, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+        });
+        const data = await response.text();
+        if (response.ok) {
+            return data;
+        } else {
+            console.log(data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}

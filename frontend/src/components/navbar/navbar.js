@@ -27,7 +27,7 @@ const Navbar = () => {
             <div className='navbar'>
                 <div className='navbarLeft'>
                     <div className='navbarLogo'>
-                        <h1>Find your gym bro</h1>
+                        <h1>Find your gym Partner</h1>
                     </div>
                 </div>
 

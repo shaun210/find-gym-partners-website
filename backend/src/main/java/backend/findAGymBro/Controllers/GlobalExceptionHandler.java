@@ -12,6 +12,4 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleFriendRequestException(CustomException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
-
-    // Add other exception handlers as needed
 }

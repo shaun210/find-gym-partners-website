@@ -25,6 +25,9 @@ public class FriendRequestService {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private MemberService memberService;
+
     @Transactional
     public String createFriendRequest(String sender, String receiver, boolean accepted, LocalDateTime sentDateTime) {
 
@@ -63,12 +66,7 @@ public class FriendRequestService {
         }
 
         if (accepted) {
-            Member senderMember = memberRepository.findByUsername(sender);
-            Member receiverMember = memberRepository.findByUsername(receiver);
-            senderMember.addFriend(receiverMember);
-            receiverMember.addFriend(senderMember);
-            memberRepository.save(senderMember);
-            memberRepository.save(receiverMember);
+            memberService.addFriend(sender, receiver);
         }
         friendRequestRepository.delete(friendRequest);
         return true;

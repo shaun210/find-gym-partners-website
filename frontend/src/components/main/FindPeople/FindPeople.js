@@ -37,7 +37,7 @@ const FindPeople = () => {
     const handleFriendRequest = async (receiver) => {
         let response = await sendFriendRequest(currentUser, receiver, friendRequestCallback,failureCallback);
         console.log(response);
-      };
+    };
 
     const friendRequestCallback = (response) => {
         setAlert({ message: response, type: 'success' });

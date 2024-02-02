@@ -29,24 +29,46 @@
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   
   .friendName {
     font-weight: bold;
     margin-bottom: 8px;
   }
+
+  .friendListButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
   
-  .goToChat button {
+  .friendListButton .goToChatButton {
     padding: 8px 16px;
     border: none;
     border-radius: 5px;
     color: #fff;
-    background-color: #0084ff;
+    background-color: #4681c5;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 10rem;
   }
   
-  .goToChat button:hover {
-    background-color: #006fce;
+  .friendListButton .goToChatButton:hover {
+    background-color: #322aa3;
+  }
+
+  .friendListButton .removeFriendButton {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #c53439;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 10rem;
   }
   

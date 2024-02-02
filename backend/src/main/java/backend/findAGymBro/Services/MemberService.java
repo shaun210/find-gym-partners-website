@@ -45,7 +45,10 @@ public class MemberService {
 
         Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry);
         memberRepository.save(member);
-        saveProfilePicture(username, profilePicFile);
+        System.out.println("Member created AYO BOUR MW");
+        if (profilePicFile != null){
+            saveProfilePicture(username, profilePicFile);
+        }
         return member;
     }
 

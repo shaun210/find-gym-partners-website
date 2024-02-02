@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.619s</div>
+<div class="counter">0.856s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,7 +79,7 @@
 </thead>
 <tr>
 <td class="success">contextLoads()</td>
-<td class="success">0.619s</td>
+<td class="success">0.856s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -87,8 +87,8 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>19:26:55.414 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [backend.findAGymBro.FindAGymBroApplicationTests]: FindAGymBroApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-19:26:55.542 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration backend.findAGymBro.FindAGymBroApplication for test class backend.findAGymBro.FindAGymBroApplicationTests
+<pre>11:30:13.298 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [backend.findAGymBro.FindAGymBroApplicationTests]: FindAGymBroApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+11:30:13.527 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration backend.findAGymBro.FindAGymBroApplication for test class backend.findAGymBro.FindAGymBroApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -98,26 +98,28 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.4)
 
-2024-01-02T19:26:55.914-05:00  INFO 27680 --- [    Test worker] b.f.FindAGymBroApplicationTests          : Starting FindAGymBroApplicationTests using Java 17.0.1 with PID 27680 (started by shaunsoobagrah in /Users/shaunsoobagrah/Downloads/findAGymBro/backend)
-2024-01-02T19:26:55.917-05:00  INFO 27680 --- [    Test worker] b.f.FindAGymBroApplicationTests          : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2024-01-02T19:26:56.667-05:00  INFO 27680 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-01-02T19:26:56.786-05:00  INFO 27680 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 106 ms. Found 3 JPA repository interfaces.
-2024-01-02T19:26:57.254-05:00  INFO 27680 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-01-02T19:26:57.338-05:00  INFO 27680 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.9.Final
-2024-01-02T19:26:57.339-05:00  INFO 27680 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
-2024-01-02T19:26:57.458-05:00  INFO 27680 --- [    Test worker] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2024-01-02T19:26:57.563-05:00  INFO 27680 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-01-02T19:26:57.577-05:00  INFO 27680 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-01-02T19:26:57.706-05:00  INFO 27680 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7e0f9528
-2024-01-02T19:26:57.708-05:00  INFO 27680 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-01-02T19:26:57.984-05:00  INFO 27680 --- [    Test worker] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2024-01-02T19:26:58.589-05:00  INFO 27680 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-01-02T19:26:58.747-05:00  INFO 27680 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-01-02T19:26:59.329-05:00  WARN 27680 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-01-02T19:26:59.770-05:00  INFO 27680 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
-2024-01-02T19:26:59.772-05:00  INFO 27680 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@55a2f08b]]
-2024-01-02T19:26:59.773-05:00  INFO 27680 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
-2024-01-02T19:26:59.780-05:00  INFO 27680 --- [    Test worker] b.f.FindAGymBroApplicationTests          : Started FindAGymBroApplicationTests in 4.09 seconds (process running for 5.354)
+2024-02-02T11:30:13.988-05:00  INFO 10883 --- [    Test worker] b.f.FindAGymBroApplicationTests          : Starting FindAGymBroApplicationTests using Java 18.0.2.1 with PID 10883 (started by shaunsoobagrah in /Users/shaunsoobagrah/Downloads/GitHubRepositories/find-gym-partners-website/backend)
+2024-02-02T11:30:13.994-05:00  INFO 10883 --- [    Test worker] b.f.FindAGymBroApplicationTests          : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-02-02T11:30:14.613-05:00  INFO 10883 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-02T11:30:14.693-05:00  INFO 10883 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 73 ms. Found 4 JPA repository interfaces.
+2024-02-02T11:30:15.113-05:00  INFO 10883 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-02T11:30:15.158-05:00  INFO 10883 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.9.Final
+2024-02-02T11:30:15.160-05:00  INFO 10883 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-02-02T11:30:15.260-05:00  INFO 10883 --- [    Test worker] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-02-02T11:30:15.469-05:00  INFO 10883 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-02T11:30:15.481-05:00  INFO 10883 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-02-02T11:30:20.791-05:00  INFO 10883 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4c04216f
+2024-02-02T11:30:20.794-05:00  INFO 10883 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-02-02T11:30:21.305-05:00  INFO 10883 --- [    Test worker] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-02-02T11:30:22.035-05:00  INFO 10883 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-02-02T11:30:22.217-05:00  INFO 10883 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-02T11:30:22.526-05:00  INFO 10883 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-02-02T11:30:23.262-05:00  WARN 10883 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-02T11:30:23.479-05:00  INFO 10883 --- [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2024-02-02T11:30:23.669-05:00  INFO 10883 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2024-02-02T11:30:23.673-05:00  INFO 10883 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@4057eb76]]
+2024-02-02T11:30:23.674-05:00  INFO 10883 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2024-02-02T11:30:23.692-05:00  INFO 10883 --- [    Test worker] b.f.FindAGymBroApplicationTests          : Started FindAGymBroApplicationTests in 9.973 seconds (process running for 12.286)
 </pre>
 </span>
 </div>
@@ -129,7 +131,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.5</a> at 2 Jan 2024, 19:27:00</p>
+<a href="http://www.gradle.org">Gradle 7.5.1</a> at 2 Feb 2024, 11:30:24</p>
 </div>
 </div>
 </body>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getFriendList, getFriendRequests, changeAcceptedStatus } from '../../../api/FriendListApi';
+import { getFriendList, getFriendRequests, changeAcceptedStatus, removeFriend } from '../../../api/FriendListApi';
 import { Link } from 'react-router-dom';
 import './FriendList.css';
 
@@ -50,6 +50,37 @@ const FriendList = () => {
         }
     }
 
+    const handleRemoveFriend = async (receiver) => {
+        try {
+            const data = await removeFriend(currentUser, receiver);
+            if (data) {
+                fetchFriendList();
+            } else {
+                window.alert('Error removing friend');
+            }
+        } catch (error) {
+            window.alert('Error removing friend:', error);
+        }
+    }
+
+    const FriendBox = ({friend}) => {
+        return (
+            <div className='friendBox'>
+                <div className='friendName'>
+                    {friend}
+                </div>
+                <div className='friendListButton'>
+                    <Link to={'/singleChat/' + friend}>
+                        <button className='goToChatButton'>Go to chat</button>
+                    </Link>
+                    <button className='removeFriendButton' onClick={() => handleRemoveFriend(friend)}>Remove friend</button>
+                </div>
+            </div>
+        );
+    }
+
+
+
     return (
         <div className='friendListParent'>
             <h2>Friend Request</h2>
@@ -72,20 +103,7 @@ const FriendList = () => {
     );
 }
 
-const FriendBox = ({friend}) => {
-    return (
-        <div className='friendBox'>
-            <div className='friendName'>
-                {friend}
-            </div>
-            <div className='goToChat'>
-                <Link to={'/singleChat/' + friend}>
-                    <button>Go to chat</button>
-                </Link>
-            </div>
-        </div>
-    );
-}
+
 
 const FriendRequestsNotification = ({ request, handleAccept }) => {
     const { sender, receiver } = request;
