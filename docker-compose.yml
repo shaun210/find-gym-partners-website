@@ -1,0 +1,34 @@
+version: "3"
+services:
+  postgres_db:
+      image: postgres:latest
+      container_name: postgres_db
+      environment:
+        POSTGRES_DB: findagymbro_db
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: sparky2121
+      ports:
+        - "5432:5432"
+  backend-server:
+    build: ./backend
+    container_name: findagymbro_backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres_db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/findagymbro_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: sparky2121
+  ui:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.Dev
+    container_name: findagymbro_ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend-server
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
