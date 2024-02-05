@@ -1,4 +1,4 @@
-export const onlineAPI = 'http://localhost:8080/';
+export const onlineAPI = 'http://localhost:3050/api/';
 
 export const paths = {
     FRIEND_LIST: '/',

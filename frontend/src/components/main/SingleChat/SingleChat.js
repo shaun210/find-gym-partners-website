@@ -26,7 +26,7 @@ const SingleChat = () => {
             try {         
                 let answer = await getChatId(currentUser, friendName, onSuccessCallbackChatId);
                 socketClient.current = new Client({
-                    brokerURL: 'ws://localhost:8080/gs-guide-websocket',
+                    brokerURL: 'ws://localhost:3050/gs-guide-websocket',
                     reconnectDelay: 5000,
                     heartbeatIncoming: 4000,
                     heartbeatOutgoing: 4000,
@@ -51,6 +51,7 @@ const SingleChat = () => {
     async function onSuccessCallbackChatId(response) {
         chatID.current = response; 
         let messages = await getAllMessages(response);
+
         setChatMessages(messages);
     }
 

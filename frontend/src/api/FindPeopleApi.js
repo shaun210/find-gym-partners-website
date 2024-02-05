@@ -4,7 +4,6 @@ export async function findPeople(query, gymLevel, searchType) {
         const params = new URLSearchParams();
         let response = '';
         if (searchType === 'username') {
-            console.log(query + ' ' + gymLevel + ' ' + searchType);
             params.append('username', query);
             response = await fetch(onlineAPI + 'member/findPeopleByUsername?' + params, {
                 method: 'GET',
@@ -19,7 +18,6 @@ export async function findPeople(query, gymLevel, searchType) {
                 headers: { 'Content-Type': 'application/json' },
             });
         }
-        console.log(response);
         const data = await response.json();
         if (response.ok) {
             return data;
