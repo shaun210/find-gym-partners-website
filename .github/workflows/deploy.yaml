@@ -4,22 +4,19 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker build -t shaun210/multi-frontend ./frontend
+      - run: docker build -t shaun210/multi-backend ./backend
+      - run: docker build -t shaun210/multi-nginx ./nginx
 
-      -run: docker build -t shaun210/multi-frontend ./frontend
-      -run: docker build -t shaun210/multi-backend ./backend
-      -run: docker build -t shaun210/multi-nginx ./nginx
-
-      -run: docker push shaun210/multi-frontend
-      -run: docker push shaun210/multi-backend
-      -run: docker push shaun210/multi-nginx
+      - run: docker push shaun210/multi-frontend
+      - run: docker push shaun210/multi-backend
+      - run: docker push shaun210/multi-nginx
 
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
