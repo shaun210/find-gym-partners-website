@@ -6,7 +6,7 @@ const WEBSOCKET_URLS = {
 
 const API_URLS = {
     development: 'http://localhost:3050/api/',
-    production: 'http://find-gym-partner-env.eba-8tda8qu8.us-east-1.elasticbeanstalk.com//api/',
+    production: 'http://find-gym-partner-env.eba-8tda8qu8.us-east-1.elasticbeanstalk.com/api/',
 };
   
 const environment = process.env.NODE_ENV || 'development';
