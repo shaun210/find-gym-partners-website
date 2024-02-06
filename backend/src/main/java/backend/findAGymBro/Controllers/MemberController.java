@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.io.IOException;
 
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3050", "http://find-gym-partner-env.eba-8tda8qu8.us-east-1.elasticbeanstalk.com"})
+@CrossOrigin(origins = {"*"})
 @RestController
 @RequestMapping("/member")
 public class MemberController {
@@ -128,6 +128,7 @@ public class MemberController {
     // write a dummy controller that returns hello world
     @GetMapping(value = {"/hello", "/hello/"})
     public String hello() {
+        System.out.println("hello world");
         return "Hello World";
     }
 }
