@@ -124,4 +124,10 @@ public class MemberController {
     //         throw new IllegalArgumentException("error in getting profile picture" + e.getMessage());
     //     } 
     // }
+
+    // write a dummy controller that returns hello world
+    @GetMapping(value = {"/hello", "/hello/"})
+    public String hello() {
+        return "Hello World";
+    }
 }
