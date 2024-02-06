@@ -13,7 +13,7 @@ import backend.findAGymBro.Services.MessageService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3050", "http://find-gym-partner-env.eba-8tda8qu8.us-east-1.elasticbeanstalk.com"})
 @RestController
 public class ChatController {
     @Autowired

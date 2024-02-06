@@ -1,51 +1,24 @@
-version: "3"
+version: '3'
 services:
-  postgres_db:
-      image: postgres:latest
-      container_name: postgres_db
-      environment:
-        POSTGRES_DB: findagymbro_db
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: sparky2121
-      ports:
-        - "5432:5432"
-  nginx:
-    restart: always
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.dev
-    container_name: findagymbro_nginx
-    ports:
-      - "3050:80"
-    depends_on:
-      - ui
-      - backend-server
-  backend-server:
-    build:
-      context: ./backend
-      # dockerfile: Dockerfile.dev
-      dockerfile: Dockerfile
-    container_name: findagymbro_backend
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres_db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/findagymbro_db
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: sparky2121
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
-      
   ui:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.Dev
-    container_name: findagymbro_ui
+    image: 'shaun210/multi-frontend'
+    mem_limit: 128m
+    hostname: ui
+    environment:
+      - NODE_ENV=production
+  backend-server:
+    image: 'shaun210/multi-backend'
+    mem_limit: 128m
+    hostname: backend-server
+    environment:
+      - PGUSER=$PGUSER
+      - PGHOST=$PGHOST
+      - PGDATABASE=$PGDATABASE
+      - PGPASSWORD=$PGPASSWORD
+      - PGPORT=$PGPORT
+  nginx:
+    image: 'shaun210/multi-nginx'
+    mem_limit: 128m
+    hostname: nginx
     ports:
-      - "3000:3000"
-    depends_on:
-      - backend-server
-    volumes:
-      - /app/node_modules
-      - ./frontend:/app
+      - '80:80'

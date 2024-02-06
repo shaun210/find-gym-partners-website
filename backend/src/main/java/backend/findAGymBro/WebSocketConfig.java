@@ -18,8 +18,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/gs-guide-websocket").setAllowedOrigins("*" );
-    // registry.addEndpoint("/gs-guide-websocket");
+    registry.addEndpoint("/gs-guide-websocket").setAllowedOrigins("http://localhost:3000/", "http://localhost:3050", "http://find-gym-partner-env.eba-8tda8qu8.us-east-1.elasticbeanstalk.com");
   }
 
 }

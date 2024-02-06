@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 import java.time.LocalDateTime;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3050", "http://find-gym-partner-env.eba-8tda8qu8.us-east-1.elasticbeanstalk.com"})
 @RestController
 @RequestMapping("/friendRequest")
 public class FriendRequestController {

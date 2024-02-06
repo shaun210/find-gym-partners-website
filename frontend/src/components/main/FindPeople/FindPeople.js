@@ -14,7 +14,6 @@ const FindPeople = () => {
     async function handleKeyPress(event) {
         if (event.key === 'Enter') {
             let response = await findPeople(searchQuery, gymLevel, searchType);
-            console.log(response);
             setPeopleList(response);
         }
     }
@@ -27,11 +26,6 @@ const FindPeople = () => {
     const handleSearchTypeChange = (event) => {
         setSearchType(event.target.value);
     };
-
-    // console log list of people
-    useEffect(() => {
-        console.log(peopleList);
-    }, [peopleList]);
     
     // Send friend request
     const handleFriendRequest = async (receiver) => {
@@ -74,8 +68,11 @@ const FindPeople = () => {
             <div className='peopleList'>
                 {peopleList.map((people, index) => (
                     <div key={index} className='peopleBox'>
-                        <div>
+                        {/* <div>
                             <img src={`data:image/png;base64,${people.profilePicture}`} alt='./dummy_pro' className='peopleProfilePicture'/>
+                        </div> */}
+                        <div>
+                            <img src='dummy_profile.png' alt='./dummy_pro' className='peopleProfilePicture'/>
                         </div>
                         <div> 
                             <div className='peopleName'>

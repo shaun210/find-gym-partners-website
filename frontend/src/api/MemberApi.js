@@ -25,10 +25,8 @@ export async function signin(form, successCallback, failCallback) {
         // const params = new URLSearchParams();
         const formData = new FormData();
         for (const key in form) {
-            console.log(key);
             formData.append(key, form[key]);
         }
-        // console.log(params);
         const response = await fetch(onlineAPI + 'member/', {
             method: 'POST',
             body: formData,

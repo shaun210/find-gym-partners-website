@@ -6,8 +6,7 @@ import SingleMessage from './SingleMessage';
 import { Client } from '@stomp/stompjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
-
-
+import { websocketURL } from '../../../constants';
 // import single message:
 
 const SingleChat = () => {
@@ -26,7 +25,7 @@ const SingleChat = () => {
             try {         
                 let answer = await getChatId(currentUser, friendName, onSuccessCallbackChatId);
                 socketClient.current = new Client({
-                    brokerURL: 'ws://localhost:3050/gs-guide-websocket',
+                    brokerURL: websocketURL,
                     reconnectDelay: 5000,
                     heartbeatIncoming: 4000,
                     heartbeatOutgoing: 4000,

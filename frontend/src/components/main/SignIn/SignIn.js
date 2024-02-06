@@ -21,7 +21,7 @@ const SignIn = () => {
         tiktokLink: '',
         addressTown: '',
         addressCountry: '',
-        profilePicture: null,
+        // profilePicture: null,
     });
 
     const handleChange = (e) => {
@@ -40,8 +40,6 @@ const SignIn = () => {
     }
 
     const successSignInCallback = (data) => {
-        console.log("member: ");
-        console.log(data);
         localStorage.setItem('member', JSON.stringify(data));
         window.location.href = paths.FRIEND_LIST;
     };
@@ -112,10 +110,10 @@ const SignIn = () => {
                 <option value="ADVANCED">Advanced</option>
             </select>
             </label>
-            <label>
+            {/* <label>
                 Profile Picture:
                 <input type="file" name="profilePicture" onChange={handleChange} />
-            </label>
+            </label> */}
                             
             <button type="submit">Submit</button>
 

@@ -28,7 +28,7 @@ public class MemberService {
     @Transactional
     public Member createMember(String username, String password, String email, String firstName, 
     String lastName, String personalDescription, GymLevel gymLevel, int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, 
-    String addressTown, String addressCountry, MultipartFile profilePicFile) {
+    String addressTown, String addressCountry) {
 
         // check if username unique
         if (memberRepository.findByUsername(username) != null) {
@@ -38,19 +38,38 @@ public class MemberService {
         if (!email.contains("@")) {
             throw new IllegalArgumentException("Invalid email");
         }
-        if (profilePicFile != null && !profilePicFile.getContentType().equals("image/jpeg")) {
-            throw new IllegalArgumentException("Invalid file type");
-        }
-        
 
         Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry);
         memberRepository.save(member);
-        System.out.println("Member created AYO BOUR MW");
-        if (profilePicFile != null){
-            saveProfilePicture(username, profilePicFile);
-        }
         return member;
     }
+
+    // @Transactional
+    // public Member createMember(String username, String password, String email, String firstName, 
+    // String lastName, String personalDescription, GymLevel gymLevel, int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, 
+    // String addressTown, String addressCountry, MultipartFile profilePicFile) {
+
+    //     // check if username unique
+    //     if (memberRepository.findByUsername(username) != null) {
+    //         throw new IllegalArgumentException("Username already exists");
+    //     }
+    //     // check if email valid
+    //     if (!email.contains("@")) {
+    //         throw new IllegalArgumentException("Invalid email");
+    //     }
+    //     if (profilePicFile != null && !profilePicFile.getContentType().equals("image/jpeg")) {
+    //         throw new IllegalArgumentException("Invalid file type");
+    //     }
+        
+
+    //     Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry);
+    //     memberRepository.save(member);
+    //     System.out.println("Member created AYO BOUR MW");
+    //     if (profilePicFile != null){
+    //         saveProfilePicture(username, profilePicFile);
+    //     }
+    //     return member;
+    // }
 
     @Transactional
     public Member login(String username, String password) {
@@ -177,40 +196,39 @@ public class MemberService {
         return (dotIndex == -1) ? "" : filename.substring(dotIndex);
     }
 
-    public byte[] getProfilePicture(String username) throws IOException{
-        String currentDirectory = System.getProperty("user.dir");
-        String filePath = currentDirectory + "/src/main/java/backend/findAGymBro/ProfilePictures/" + username + ".jpg";
+    // public byte[] getProfilePicture(String username) throws IOException{
+    //     String currentDirectory = System.getProperty("user.dir");
+    //     String filePath = currentDirectory + "/src/main/java/backend/findAGymBro/ProfilePictures/" + username + ".jpg";
     
-        try {
-            Path path = Paths.get(filePath);
-            byte[] fileContent = Files.readAllBytes(path);
-            return fileContent;
-        } catch (NoSuchFileException e) {
-            System.err.println("Profile picture not found for user: " + username);
-            return getDefaultProfilePicture();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return getDefaultProfilePicture();
-        }
-    }
+    //     try {
+    //         Path path = Paths.get(filePath);
+    //         byte[] fileContent = Files.readAllBytes(path);
+    //         return fileContent;
+    //     } catch (NoSuchFileException e) {
+    //         System.err.println("Profile picture not found for user: " + username);
+    //         return getDefaultProfilePicture();
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //         return getDefaultProfilePicture();
+    //     }
+    // }
 
-    private byte[] getDefaultProfilePicture() throws IOException{
-        try {
-            String currentDirectory = System.getProperty("user.dir");
-            String filePath = currentDirectory + "/src/main/java/backend/findAGymBro/ProfilePictures/dummypic.png";
-            Path path = Paths.get(filePath);
-            byte[] fileContent = Files.readAllBytes(path);
-            return fileContent;
-        } catch (IOException e) {
-            System.err.println("Default profile picture not found");
-            return new byte[0];
-        }
-    }
+    // private byte[] getDefaultProfilePicture() throws IOException{
+    //     try {
+    //         String currentDirectory = System.getProperty("user.dir");
+    //         String filePath = currentDirectory + "/src/main/java/backend/findAGymBro/ProfilePictures/dummypic.png";
+    //         Path path = Paths.get(filePath);
+    //         byte[] fileContent = Files.readAllBytes(path);
+    //         return fileContent;
+    //     } catch (IOException e) {
+    //         System.err.println("Default profile picture not found");
+    //         return new byte[0];
+    //     }
+    // }
 
-    public MemberDto convMemberDtoWithPicture(Member member) throws IOException{
-        String username = member.getUsername();
-        return new MemberDto(member, getProfilePicture(username));
-    }
-
+    // public MemberDto convMemberDtoWithPicture(Member member) throws IOException{
+    //     String username = member.getUsername();
+    //     return new MemberDto(member, getProfilePicture(username));
+    // }
 
 }

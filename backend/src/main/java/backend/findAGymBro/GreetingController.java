@@ -5,12 +5,12 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.util.HtmlUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import backend.findAGymBro.DTO.MessageDto;
-import backend.findAGymBro.Models.Message;
 import backend.findAGymBro.Services.MessageService;
 
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3050", "http://find-gym-partner-env.eba-8tda8qu8.us-east-1.elasticbeanstalk.com"})
 @Controller
 public class GreetingController {
 
@@ -29,14 +29,4 @@ public class GreetingController {
     String destination = "/topic/chat/" + message.getChatID();
     messagingTemplate.convertAndSend(destination, messageDto);
   }
-
-  // @MessageMapping("/hello")
-  // // @SendTo("/topic/greetings")
-  // public void greeting(DummyMessage message) throws Exception {
-  //   Thread.sleep(1000); // simulated delay
-  //   String destination = "/topic/chat/6";
-  //   messagingTemplate.convertAndSend(destination, new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!"));
-  // }
-
-
 }
