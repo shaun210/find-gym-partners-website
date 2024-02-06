@@ -2,13 +2,13 @@ version: '3'
 services:
   ui:
     image: 'shaun210/multi-frontend'
-    mem_limit: 128m
+    mem_limit: 600m
     hostname: ui
     environment:
       - NODE_ENV=production
   backend-server:
     image: 'shaun210/multi-backend'
-    mem_limit: 128m
+    mem_limit: 600m
     hostname: backend-server
     environment:
       - PGUSER=$PGUSER
@@ -16,9 +16,11 @@ services:
       - PGDATABASE=$PGDATABASE
       - PGPASSWORD=$PGPASSWORD
       - PGPORT=$PGPORT
+    ports:
+      - '8080:8080'
   nginx:
     image: 'shaun210/multi-nginx'
-    mem_limit: 128m
+    mem_limit: 600m
     hostname: nginx
     ports:
       - '80:80'
