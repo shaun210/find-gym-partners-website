@@ -9,6 +9,8 @@ import FindPeople from './components/main/FindPeople/FindPeople';
 import EditProfile from './components/main/EditProfile/EditProfile';
 import Navbar from './components/navbar/navbar';
 import { paths } from './constants';
+import Home from './components/main/Home/Home';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
       <div>
         <Navbar />
         <Routes>
+          <Route path={paths.HOME} element={<Home />} />
           <Route path={paths.LOGIN} element={<Login />} />
           <Route path={paths.SINGLE_CHAT} element={<SingleChat />} />
           <Route path={paths.FRIEND_LIST} element={<FriendList />} />

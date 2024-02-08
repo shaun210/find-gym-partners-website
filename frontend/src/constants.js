@@ -15,7 +15,8 @@ export const onlineAPI = API_URLS[environment];
 export const websocketURL = WEBSOCKET_URLS[environment];
 
 export const paths = {
-    FRIEND_LIST: '/',
+    HOME: '/',
+    FRIEND_LIST: '/friendList',
     LOGIN: '/login',
     SINGLE_CHAT: '/singleChat/:friendName',
     SIGNIN: '/signin',

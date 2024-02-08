@@ -47,15 +47,15 @@
   
   /* Logged-in buttons */
   .friendListButton button {
-    background-color: #28a745;
+    background-color: #000000;
   }
   
   .findFriendButton button {
-    background-color: #ffc107;
+    background-color: #000000;
   }
 
   .logOutButton button {
-    background-color: #dc3545;
+    background-color: #000000;
   }
   
   /* Hover styles for buttons */

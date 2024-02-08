@@ -27,7 +27,9 @@ const Navbar = () => {
             <div className='navbar'>
                 <div className='navbarLeft'>
                     <div className='navbarLogo'>
-                        <h1>Find your gym Partner</h1>
+                        <Link to={paths.HOME} style={{ textDecoration: 'none', color: 'inherit' }} >
+                            <h1>Find your gym Partner</h1>
+                        </Link>
                     </div>
                 </div>
 
