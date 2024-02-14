@@ -1,4 +1,4 @@
-.friendListParent {
+.friendRequestBox, .friendListBox {
     width: 70%;
     margin: 0 auto;
     padding: 20px;
@@ -20,11 +20,20 @@
     gap: 15px;
   }
 
+  .friendRequestsNotificationParent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
   .friendRequestsNotificationParent button {
+    width: 20%;
+    border-radius: 10px;
     background-color: #c53439;
   }
   
-  .friendBox {
+  .friendBox, .friendRequestsNotificationParent {
     background-color: #fff;
     padding: 15px;
     border-radius: 8px;
@@ -33,20 +42,22 @@
     justify-content: space-between;
     align-items: center;
   }
+
+
   
   .friendName {
     font-weight: bold;
     margin-bottom: 8px;
   }
 
-  .friendListButton {
+  .friendListButton, .friendRequestButtons {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
   }
   
-  .friendListButton .goToChatButton {
+  .friendListButton .goToChatButton, .friendRequestButtons .acceptFriendRequestButton, .friendRequestButtons .rejectFriendRequestButton{
     padding: 8px 16px;
     border: none;
     border-radius: 5px;

@@ -25,6 +25,8 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private GymLevel gymLevel;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private int age;
     private int yearsOfExperience;
     private String facebookLink;
@@ -33,6 +35,7 @@ public class Member {
     private String tiktokLink;
     private String addressTown;
     private String addressCountry;
+    
     @OneToMany(mappedBy = "sender")
     private List<FriendRequest> sentFriendRequests;
 
@@ -47,7 +50,7 @@ public class Member {
 
     // use all private variables in constructor
     public Member(String username, String password, String email, String firstName, String lastName, String personalDescription, GymLevel gymLevel, 
-    int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, String addressTown, String addressCountry) {
+    int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, String addressTown, String addressCountry, Gender gender) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -66,7 +69,7 @@ public class Member {
         this.addressCountry = addressCountry;
         this.sentFriendRequests = new LinkedList<>();
         this.receivedFriendRequests = new LinkedList<>();
-
+        this.gender = gender;
     }
 
     public String getUsername() {
@@ -141,6 +144,10 @@ public class Member {
         return receivedFriendRequests;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
     public void setUsername(String username){
         this.username = username;
     }
@@ -205,6 +212,8 @@ public class Member {
         this.addressCountry = addressCountry;
     }
 
-    
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 }
 

@@ -8,10 +8,12 @@ const FriendList = () => {
     const currentUser = storedMember ? storedMember.username : '';
     const [friendList, setFriendList] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
-    useEffect(() => {        
-        fetchFriendList();
-        fetchFriendRequests();
-    }, []);
+    useEffect(() => {
+        if (currentUser) {
+            fetchFriendList();
+            fetchFriendRequests();
+        }
+    }, [currentUser]);
     const fetchFriendList = async () => {
         try {
             const data = await getFriendList(currentUser);
@@ -82,8 +84,9 @@ const FriendList = () => {
 
 
     return (
-        <div className='friendListParent'>
-            <h2>Friend Request</h2>
+        <div>
+        <div className='friendRequestBox'>
+            <h2 style ={{marginBottom:'2rem'}}>Friend Request</h2>
             <div className='listOfFriends'>
                 {friendRequests.map((request, index) => (
                     <div key={index}>
@@ -91,7 +94,10 @@ const FriendList = () => {
                     </div>
                 ))}
             </div>
-            <h2>Friend List</h2>
+        </div>
+
+        <div className='friendListBox'>
+            <h2 style ={{marginBottom:'2rem'}}>Friend List</h2>
             <div className='listOfFriends'>
                 {friendList.map((friend, index) => (
                     <div key={index}>
@@ -99,6 +105,7 @@ const FriendList = () => {
                     </div>
                 ))}
             </div>
+        </div>
         </div>
     );
 }
@@ -119,8 +126,11 @@ const FriendRequestsNotification = ({ request, handleAccept }) => {
     return (
         <div className='friendRequestsNotificationParent'>
             <p>{sender}</p>
-            <button onClick={handleAcceptClick}>Accept</button>
-            <button onClick={handleDeclineClick}>Decline</button>
+            <div className='friendRequestButtons'>
+                <button style = {{backgroundColor:'rgb(31, 190, 134)'}} className='acceptFriendRequestButton' onClick={handleAcceptClick}>Accept</button>
+                <button style = {{backgroundColor:'#c53439'}} className='rejectFriendRequestButton' onClick={handleDeclineClick}>Decline</button>
+            </div>
+
         </div>
     );
 }
