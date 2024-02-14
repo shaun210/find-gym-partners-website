@@ -21,6 +21,7 @@ const SignIn = () => {
         tiktokLink: '',
         addressTown: '',
         addressCountry: '',
+        gender: 'MALE',
         // profilePicture: null,
     });
 
@@ -48,8 +49,7 @@ const SignIn = () => {
         console.log(data);
     };
 
-
-
+    
     return (
         <div className="parentBlockSignIn">
         <h1>Sign In</h1>
@@ -65,6 +65,14 @@ const SignIn = () => {
             <label>
             Last Name:
             <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} />
+            </label>
+            <label>
+            Gender:
+            <select name="gender" value={formData.gender} onChange={handleChange}>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+                <option value="OTHER">Other</option>
+            </select>
             </label>
             <label>
             Username:
@@ -114,7 +122,7 @@ const SignIn = () => {
                 Profile Picture:
                 <input type="file" name="profilePicture" onChange={handleChange} />
             </label> */}
-                            
+
             <button type="submit">Submit</button>
 
 

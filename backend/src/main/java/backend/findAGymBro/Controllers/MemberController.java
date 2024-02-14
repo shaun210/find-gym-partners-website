@@ -1,6 +1,7 @@
 package backend.findAGymBro.Controllers;
 import backend.findAGymBro.DTO.MemberDto;
 import backend.findAGymBro.Models.GymLevel;
+import backend.findAGymBro.Models.Gender;
 import backend.findAGymBro.Models.Member;
 import backend.findAGymBro.Services.MemberService;
 
@@ -62,14 +63,16 @@ public class MemberController {
                                 @RequestParam(value = "snapchatLink") String snapchatLink,
                                 @RequestParam(value = "tiktokLink") String tiktokLink,
                                 @RequestParam(value = "addressTown") String addressTown,
-                                @RequestParam(value = "addressCountry") String addressCountry
+                                @RequestParam(value = "addressCountry") String addressCountry,
+                                @RequestParam(value = "gender") String gender
                                ) {
         try {
             GymLevel enumGymLevel = GymLevel.valueOf(gymLevel.toUpperCase());
+            Gender enumGender = Gender.valueOf(gender.toUpperCase());
             return new MemberDto(memberService.createMember(username, password, email, firstName, lastName, personalDescription, enumGymLevel, age, 
-                yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry));
+                yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry, enumGender));
         } catch (Exception e) {
-            throw new IllegalArgumentException("error in creating member: " +e.getMessage());
+            throw new IllegalArgumentException("error in creating member: " + e.getMessage());
         } 
     }
     @PostMapping(value = {"/login", "/login/"})

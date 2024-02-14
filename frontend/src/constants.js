@@ -1,11 +1,11 @@
 const WEBSOCKET_URLS = {
-    development: 'ws://localhost:3050/gs-guide-websocket',
+    development: 'ws://localhost:3000/gs-guide-websocket',
     production: 'ws://find-gym-partner-env.eba-8tda8qu8.us-east-1.elasticbeanstalk.com/gs-guide-websocket',
 };
 
 
 const API_URLS = {
-    development: 'http://localhost:3050/api/',
+    development: 'http://localhost:8080/',
     production: 'http://find-gym-partner-env.eba-8tda8qu8.us-east-1.elasticbeanstalk.com/api/',
 };
   

@@ -7,8 +7,27 @@ import peopleFill from './bootstrapIcon/people-fill.svg';
 import secondHomePic from './second-home-pic.png';
 import { Link } from 'react-router-dom';
 import { paths } from '../../../constants';
-function Home() {
 
+function Home() {
+    const storedMember = JSON.parse(localStorage.getItem('member'));
+    const currentUser = storedMember ? storedMember.username : '';
+
+    const handleGoToFindPeople = () => {
+        if (!currentUser) {
+            window.alert('Please sign in to use this feature');
+            return;
+        }
+        window.location.href = paths.FIND_PEOPLE;
+    }
+
+    const handleGoToViewFriends = () => {
+        if (!currentUser) {
+            window.alert('Please sign in to use this feature');
+            return;
+        }
+        window.location.href = paths.FRIEND_LIST;
+    }
+    
     return (
         <Container fluid>
             <Row className = "mb-5"style={{ marginTop: '5rem', marginBottom: '5rem'}}>
@@ -31,7 +50,11 @@ function Home() {
                 </Col>
             </Row>
 
-            <hr class="bg-primary"></hr>
+            <hr className="bg-primary"></hr>
+
+
+            
+
             <Row>
                 <h1 className="text-center mb-5"> How it works?</h1>
             </Row>
@@ -46,9 +69,8 @@ function Home() {
                             <Card.Text>
                                 Search for friends based on their fitness goals and location.
                             </Card.Text>
-                            <Link to={paths.FRIEND_LIST}>
-                                <Button variant="primary" size="sm" >Find people</Button>
-                            </Link>
+
+                            <Button onClick ={handleGoToFindPeople} variant="primary" size="sm" >Find people</Button>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -62,9 +84,7 @@ function Home() {
                             <Card.Text>
                                 Connect with friends and start planning your workouts!
                             </Card.Text>
-                            <Link to={paths.FRIEND_LIST}>
-                                <Button variant="primary" size="sm" >View Friends</Button>
-                            </Link>
+                            <Button onClick ={handleGoToViewFriends} variant="primary" size="sm" >View Friends</Button>
                         </Card.Body>
                     </Card>
                 </Col>

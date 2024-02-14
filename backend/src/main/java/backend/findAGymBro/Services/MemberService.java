@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.nio.file.Files;
 import backend.findAGymBro.DAO.MemberRepository;
 import backend.findAGymBro.DTO.MemberDto;
+import backend.findAGymBro.Models.Gender;
 import backend.findAGymBro.Models.GymLevel;
 
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class MemberService {
     @Transactional
     public Member createMember(String username, String password, String email, String firstName, 
     String lastName, String personalDescription, GymLevel gymLevel, int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, 
-    String addressTown, String addressCountry) {
+    String addressTown, String addressCountry, Gender gender) {
 
         // check if username unique
         if (memberRepository.findByUsername(username) != null) {
@@ -39,7 +40,7 @@ public class MemberService {
             throw new IllegalArgumentException("Invalid email");
         }
 
-        Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry);
+        Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry, gender);
         memberRepository.save(member);
         return member;
     }
