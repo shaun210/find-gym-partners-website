@@ -1,31 +1,28 @@
 import { onlineAPI } from "../constants"
-export async function findPeople(query, gymLevel, searchType) {
+export async function findPeople(gender, gymLevel, city, minAge, maxAge, successCallbackFrindPeople, failureCallback) {
     try {
         const params = new URLSearchParams();
-        let response = '';
-        if (searchType === 'username') {
-            params.append('username', query);
-            response = await fetch(onlineAPI + 'member/findPeopleByUsername?' + params, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            });
-        }
-        else if (searchType === 'address') {
-            params.append('gymLevel', gymLevel);
-            params.append('addressTown', query);
-            response = await fetch(onlineAPI + 'member/findPeopleByGymLevelAndAddress?' + params, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            });
-        }
-        const data = await response.json();
+        params.append("gymLevel", gymLevel);
+        params.append("addressTown", city);
+        params.append("minAge", minAge);
+        params.append("maxAge", maxAge);
+        params.append("gender", gender);
+        const response = await fetch(onlineAPI + 'member/findPeople?' + params, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        });
+        
         if (response.ok) {
-            return data;
-        } else {
+            const data = await response.json();
             console.log(data);
+            successCallbackFrindPeople(data);
+
+        } else {
+            const data = await response.text();
+            failureCallback(data);
         }
     } catch (error) {
-        console.log(error);
+        failureCallback(error.message);
     }
 }
 

@@ -23,7 +23,7 @@ const SingleChat = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {         
-                let answer = await getChatId(currentUser, friendName, onSuccessCallbackChatId);
+                await getChatId(currentUser, friendName, onSuccessCallbackChatId);
                 socketClient.current = new Client({
                     brokerURL: websocketURL,
                     reconnectDelay: 5000,
@@ -32,7 +32,6 @@ const SingleChat = () => {
                     onConnect: onConnected,
                     onDisconnect: onDisconnected,
                 });
-
                 socketClient.current.activate();
                 
                 return () => {

@@ -49,6 +49,11 @@ const Navbar = () => {
                                         <button>Find new partners</button>
                                     </Link>
                                 </div>
+                                <div className='findFriendButton'>
+                                    <Link to={'/profile/' + currentUser}>
+                                        <button>View profile</button>
+                                    </Link>
+                                </div>
                                 <div className='logOutButton'>
                                     <button onClick={handleLogout}>Log out</button>
                                 </div>

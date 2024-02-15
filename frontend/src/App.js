@@ -8,6 +8,7 @@ import SignIn from './components/main/SignIn/SignIn';
 import FindPeople from './components/main/FindPeople/FindPeople';
 import EditProfile from './components/main/EditProfile/EditProfile';
 import Navbar from './components/navbar/navbar';
+import Profile from './components/main/Profile/Profile';
 import { paths } from './constants';
 import Home from './components/main/Home/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -25,6 +26,7 @@ function App() {
           <Route path={paths.SIGNIN} element={<SignIn />} />
           <Route path={paths.FIND_PEOPLE} element={<FindPeople />} />
           <Route path={paths.EDIT_PROFILE} element={<EditProfile />} />
+          <Route path={paths.PROFILE} element={<Profile />} />
         </Routes>
       </div>
     </BrowserRouter>

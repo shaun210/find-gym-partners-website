@@ -1,11 +1,15 @@
 package backend.findAGymBro.Controllers;
 import backend.findAGymBro.DTO.MemberDto;
+import backend.findAGymBro.DTO.ProfileDto;
 import backend.findAGymBro.Models.GymLevel;
 import backend.findAGymBro.Models.Gender;
 import backend.findAGymBro.Models.Member;
 import backend.findAGymBro.Services.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +17,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.io.IOException;
 
-@CrossOrigin(origins = {"*"})
+
+
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3050", "http://find-gym-partner-env.eba-8tda8qu8.us-east-1.elasticbeanstalk.com"})
 @RestController
 @RequestMapping("/member")
 public class MemberController {
@@ -49,32 +55,45 @@ public class MemberController {
     // }
 
     @PostMapping(value = {"/", ""})
-    public MemberDto createMember(@RequestParam(value = "username") String username,
-                               @RequestParam(value = "password") String password,
-                               @RequestParam(value = "email") String email,
-                               @RequestParam(value = "firstName") String firstName,
-                               @RequestParam(value = "lastName") String lastName,
-                               @RequestParam(value = "personalDescription") String personalDescription,
-                               @RequestParam(value = "gymLevel") String gymLevel,
-                               @RequestParam(value = "age") int age,
-                               @RequestParam(value = "yearsOfExperience") int yearsOfExperience,
-                                @RequestParam(value = "facebookLink") String facebookLink,
-                                @RequestParam(value = "instagramLink") String instagramLink,
-                                @RequestParam(value = "snapchatLink") String snapchatLink,
-                                @RequestParam(value = "tiktokLink") String tiktokLink,
-                                @RequestParam(value = "addressTown") String addressTown,
-                                @RequestParam(value = "addressCountry") String addressCountry,
-                                @RequestParam(value = "gender") String gender
-                               ) {
+    public ResponseEntity<Object> createMember(@RequestParam(value = "username") String username,
+                                            @RequestParam(value = "password") String password,
+                                            @RequestParam(value = "email") String email,
+                                            @RequestParam(value = "firstName") String firstName,
+                                            @RequestParam(value = "lastName") String lastName,
+                                            @RequestParam(value = "personalDescription") String personalDescription,
+                                            @RequestParam(value = "gymLevel") String gymLevel,
+                                            @RequestParam(value = "age") int age,
+                                            @RequestParam(value = "yearsOfExperience") int yearsOfExperience,
+                                            @RequestParam(value = "facebookLink") String facebookLink,
+                                            @RequestParam(value = "instagramLink") String instagramLink,
+                                            @RequestParam(value = "snapchatLink") String snapchatLink,
+                                            @RequestParam(value = "tiktokLink") String tiktokLink,
+                                            @RequestParam(value = "addressTown") String addressTown,
+                                            @RequestParam(value = "addressCountry") String addressCountry,
+                                            @RequestParam(value = "addressProvince") String addressProvince,
+                                            @RequestParam(value = "gender") String gender) {
         try {
             GymLevel enumGymLevel = GymLevel.valueOf(gymLevel.toUpperCase());
             Gender enumGender = Gender.valueOf(gender.toUpperCase());
-            return new MemberDto(memberService.createMember(username, password, email, firstName, lastName, personalDescription, enumGymLevel, age, 
-                yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry, enumGender));
+            MemberDto memberDto = new MemberDto(memberService.createMember(username, password, email, firstName, lastName, personalDescription, enumGymLevel, age,
+                    yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressProvince, addressCountry, enumGender));
+            return ResponseEntity.ok(memberDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid input: " + e.getMessage());
         } catch (Exception e) {
-            throw new IllegalArgumentException("error in creating member: " + e.getMessage());
-        } 
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in creating member: " + e.getMessage());
+        }
     }
+
+    @GetMapping(value = {"/singleProfile", "/singleProfile/"})
+    public ProfileDto getMember(@RequestParam(value = "username") String username) {
+        try {
+            return new ProfileDto(memberService.getMember(username));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("error in getting member: " + e.getMessage());
+        }
+    }
+
     @PostMapping(value = {"/login", "/login/"})
     public MemberDto login(@RequestParam(value = "username") String username,
                         @RequestParam(value = "password") String password) {
@@ -91,6 +110,24 @@ public class MemberController {
                             @RequestParam(value = "friendUsername") String friendUsername) {
         return memberService.addFriend(username, friendUsername);
     }
+
+    @RequestMapping(value = "/findPeople", method = RequestMethod.GET)
+    public List<MemberDto> findPeople(@RequestParam(value = "gymLevel") String gymLevel,
+                                    @RequestParam(value = "addressTown") String addressTown,
+                                    @RequestParam(value = "gender") String gender,
+                                    @RequestParam(value = "minAge") int minAge,
+                                    @RequestParam(value = "maxAge") int maxAge) {
+        try {
+            GymLevel enumGymLevel = GymLevel.valueOf(gymLevel.toUpperCase());
+            Gender enumGender = Gender.valueOf(gender.toUpperCase());
+            // print all the parameters
+            System.out.println("gymLevel: " + enumGymLevel + " addressTown: " + addressTown + "enumGender " + enumGender + "minAge " + minAge + "maxAge " + maxAge);
+            List<Member> foundMembers = memberService.findPeopleByGymLevelAndAddressAndGenderAndAgeBetween(enumGymLevel, addressTown, enumGender, minAge, maxAge);
+            return foundMembers.stream().map(m -> new MemberDto(m)).collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error in finding people: " + e.getMessage());
+        }
+     }
 
     // look for people controller, all 3
     @RequestMapping(value = "/findPeopleByUsername", method = RequestMethod.GET)

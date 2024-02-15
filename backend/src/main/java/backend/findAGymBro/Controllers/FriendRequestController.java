@@ -65,5 +65,15 @@ public class FriendRequestController {
             throw new IllegalArgumentException("error in deleting friend request:" + e.getMessage());
         } 
     }
+
+    @GetMapping(value = {"/areFriends", "/areFriends/"})
+    public boolean areFriends(@RequestParam(value = "username1") String username1,
+                                @RequestParam(value = "username2") String username2) {
+        try {
+            return friendRequestService.checkIfFriends(username1, username2);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("error in checking if friends:" + e.getMessage());
+        } 
+    }
     
 }
