@@ -29,7 +29,7 @@ public class MemberService {
     @Transactional
     public Member createMember(String username, String password, String email, String firstName, 
     String lastName, String personalDescription, GymLevel gymLevel, int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, 
-    String addressTown, String addressCountry, Gender gender) {
+    String addressTown, String addressProvince, String addressCountry, Gender gender) {
 
         // check if username unique
         if (memberRepository.findByUsername(username) != null) {
@@ -40,7 +40,7 @@ public class MemberService {
             throw new IllegalArgumentException("Invalid email");
         }
 
-        Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressCountry, gender);
+        Member member = new Member(username, password, email, firstName, lastName, personalDescription, gymLevel, age, yearsOfExperience, facebookLink, instagramLink, snapchatLink, tiktokLink, addressTown, addressProvince, addressCountry, gender);
         memberRepository.save(member);
         return member;
     }
@@ -71,6 +71,15 @@ public class MemberService {
     //     }
     //     return member;
     // }
+
+    @Transactional
+    public Member getMember(String username) {
+        Member member = memberRepository.findByUsername(username);
+        if (member == null) {
+            throw new EntityNotFoundException("Member not found with username: " + username);
+        }
+        return member;
+    }
 
     @Transactional
     public Member login(String username, String password) {
@@ -169,6 +178,12 @@ public class MemberService {
             throw new IllegalArgumentException("Invalid argument: gymLevel cannot be null");
         }
         List<Member> foundMembers = memberRepository.findByGymLevelAndAddressTown(gymLevel, addressTown);
+        return foundMembers;
+    }
+
+    @Transactional
+    public List<Member> findPeopleByGymLevelAndAddressAndGenderAndAgeBetween(GymLevel gymLevel, String addressTown, Gender gender, int minAge, int maxAge) {
+        List<Member> foundMembers = memberRepository.findByGymLevelAndAddressTownAndGenderAndAgeBetween(gymLevel, addressTown, gender, minAge, maxAge);
         return foundMembers;
     }
 

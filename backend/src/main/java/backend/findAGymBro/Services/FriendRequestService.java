@@ -45,7 +45,7 @@ public class FriendRequestService {
             throw new IllegalArgumentException("Receiver does not exist");
         }
         // check if friend request already exists
-        if (friendRequestRepository.findBySenderAndReceiver(senderMember, receiverMember) != null) {
+        if (friendRequestRepository.findBySenderAndReceiver(senderMember, receiverMember) != null || friendRequestRepository.findBySenderAndReceiver(receiverMember, senderMember) != null){
             throw new CustomException("Friend Request already exists", HttpStatus.BAD_REQUEST);
         }
 
@@ -93,5 +93,9 @@ public class FriendRequestService {
     public FriendRequestDto convertFriendRequestDto(FriendRequest friendRequest) {
         FriendRequestDto friendRequestDto = new FriendRequestDto(friendRequest.getSender().getUsername(), friendRequest.getReceiver().getUsername(), friendRequest.getAccepted(), friendRequest.getSentDateTime().toString());
         return friendRequestDto;
+    }
+
+    public boolean checkIfFriends(String username1, String username2) {
+        return memberRepository.areFriends(username1, username2);
     }
 }

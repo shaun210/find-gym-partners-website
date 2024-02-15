@@ -34,6 +34,7 @@ public class Member {
     private String snapchatLink;
     private String tiktokLink;
     private String addressTown;
+    private String addressProvince;
     private String addressCountry;
     
     @OneToMany(mappedBy = "sender")
@@ -50,7 +51,7 @@ public class Member {
 
     // use all private variables in constructor
     public Member(String username, String password, String email, String firstName, String lastName, String personalDescription, GymLevel gymLevel, 
-    int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, String addressTown, String addressCountry, Gender gender) {
+    int age, int yearsOfExperience, String facebookLink, String instagramLink, String snapchatLink, String tiktokLink, String addressTown, String addressProvince, String addressCountry, Gender gender) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -70,6 +71,7 @@ public class Member {
         this.sentFriendRequests = new LinkedList<>();
         this.receivedFriendRequests = new LinkedList<>();
         this.gender = gender;
+        this.addressProvince = addressProvince;
     }
 
     public String getUsername() {
@@ -130,6 +132,10 @@ public class Member {
 
     public String getAddressTown() {
         return addressTown;
+    }
+
+    public String getAddressProvince() {
+        return addressProvince;
     }
 
     public String getAddressCountry() {
@@ -214,6 +220,10 @@ public class Member {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public void setAddressProvince(String addressProvince) {
+        this.addressProvince = addressProvince;
     }
 }
 
