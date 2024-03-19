@@ -2,9 +2,7 @@ package backend.findAGymBro.Models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
@@ -36,6 +34,12 @@ public class Member {
     private String addressTown;
     private String addressProvince;
     private String addressCountry;
+
+    @OneToMany
+    private List<Exercise> exercises;
+
+    @OneToMany
+    private List<Workout> workouts;
     
     @OneToMany(mappedBy = "sender")
     private List<FriendRequest> sentFriendRequests;
@@ -72,6 +76,8 @@ public class Member {
         this.receivedFriendRequests = new LinkedList<>();
         this.gender = gender;
         this.addressProvince = addressProvince;
+        this.exercises = new LinkedList<>();
+        this.workouts = new LinkedList<>();
     }
 
     public String getUsername() {
@@ -154,6 +160,14 @@ public class Member {
         return gender;
     }
 
+    public List<Exercise> getActualExercises() {
+        return exercises;
+    }
+
+    public List<Workout> getWorkouts() {
+        return workouts;
+    }
+
     public void setUsername(String username){
         this.username = username;
     }
@@ -224,6 +238,14 @@ public class Member {
 
     public void setAddressProvince(String addressProvince) {
         this.addressProvince = addressProvince;
+    }
+
+    public void setActualExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
+    }
+
+    public void setWorkouts(List<Workout> workouts) {
+        this.workouts = workouts;
     }
 }
 

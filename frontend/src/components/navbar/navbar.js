@@ -54,6 +54,13 @@ const Navbar = () => {
                                         <button>View profile</button>
                                     </Link>
                                 </div>
+
+                                <div className='findFriendButton'>
+                                    <Link to={paths.CHOOSE_MUSCLE_GROUP}>
+                                        <button>Track Progress</button>
+                                    </Link>
+                                </div>
+                                
                                 <div className='logOutButton'>
                                     <button onClick={handleLogout}>Log out</button>
                                 </div>

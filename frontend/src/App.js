@@ -9,6 +9,7 @@ import FindPeople from './components/main/FindPeople/FindPeople';
 import EditProfile from './components/main/EditProfile/EditProfile';
 import Navbar from './components/navbar/navbar';
 import Profile from './components/main/Profile/Profile';
+import ChooseMuscleGroupPage from './components/main/ChooseMuscleGroupPage/ChooseMuscleGroupPage';
 import { paths } from './constants';
 import Home from './components/main/Home/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -27,6 +28,7 @@ function App() {
           <Route path={paths.FIND_PEOPLE} element={<FindPeople />} />
           <Route path={paths.EDIT_PROFILE} element={<EditProfile />} />
           <Route path={paths.PROFILE} element={<Profile />} />
+          <Route path={paths.CHOOSE_MUSCLE_GROUP} element={<ChooseMuscleGroupPage />} />
         </Routes>
       </div>
     </BrowserRouter>

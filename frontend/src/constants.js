@@ -23,6 +23,7 @@ export const paths = {
     FIND_PEOPLE: '/findPeople',
     EDIT_PROFILE: '/editProfile',
     PROFILE: '/profile/:username',
+    CHOOSE_MUSCLE_GROUP: '/chooseMuscleGroup',
 }
 
 export const listOfAddress = {
